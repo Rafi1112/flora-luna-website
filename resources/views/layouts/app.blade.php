@@ -28,13 +28,18 @@
             {{-- End :: Layout Menu --}}
 
             <div class="d-flex flex-row flex-column-fluid container">
-
                 <div class="main d-flex flex-column flex-row-fluid">
-                    {{-- Start :: Content --}}
-                   @yield('content')
-                    {{-- End :: Content --}}
+                    <div class="content flex-column-fluid" id="kt_content">
+                        <div class="row">
+                            {{-- Start :: Sidebar --}}
+                            @include('layouts.sidebar')
+                            {{-- End :: Sidebar --}}
+                            {{-- Start :: Content --}}
+                            @yield('content')
+                            {{-- End :: Content --}}
+                        </div>
+                    </div>
                 </div>
-
             </div>
 
             {{-- Start :: Footer --}}
@@ -62,6 +67,28 @@
 <script src="{{ asset('assets/plugins/custom/prismjs/prismjs.bundle.js') }}"></script>
 <script src="{{ asset('assets/js/scripts.bundle.js') }}"></script>
 @stack('scripts')
+@if(Session::has('success'))
+    <script>
+        toastr.options = {
+            "closeButton": true,
+            "debug": false,
+            "newestOnTop": false,
+            "progressBar": false,
+            "positionClass": "toast-top-right",
+            "preventDuplicates": false,
+            "onclick": null,
+            "showDuration": "300",
+            "hideDuration": "1000",
+            "timeOut": "3000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        };
+        toastr.success("{{ Session::get('success') }}");
+    </script>
+@endif
 </body>
 
 </html>

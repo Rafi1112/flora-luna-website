@@ -29,10 +29,11 @@
             </a>
         </div>
 
-        <div class="topbar topbar-minimize">
-            <div class="dropdown">
-                <div class="topbar-item" data-toggle="dropdown" data-offset="0px,0px">
-                    <div class="btn btn-icon btn-clean h-40px w-40px btn-dropdown">
+        @auth
+            <div class="topbar topbar-minimize">
+                <div class="dropdown">
+                    <div class="topbar-item" data-toggle="dropdown" data-offset="0px,0px">
+                        <div class="btn btn-icon btn-clean h-40px w-40px btn-dropdown">
                         <span class="svg-icon svg-icon-lg">
                             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
                                 <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -42,35 +43,39 @@
                                 </g>
                             </svg>
                         </span>
+                        </div>
                     </div>
-                </div>
-                <div class="dropdown-menu p-0 m-0 dropdown-menu-right dropdown-menu-anim-up dropdown-menu-lg p-0">
-                    <div class="d-flex align-items-center p-8 rounded-top">
-                        <div class="text-dark m-0 flex-grow-1 mr-3 font-size-h5">yoursoulismine</div>
-                        <span class="label label-primary label-lg font-weight-bold label-inline">900 &nbsp; <img src="{{ asset('assets/media/gem-coin.png') }}"></span>
-                    </div>
-                    <div class="separator separator-solid"></div>
-                    <div class="navi navi-spacer-x-0 pt-5">
-                        <a href="#" class="navi-item px-8">
-                            <div class="navi-link">
-                                <div class="navi-icon mr-2">
-                                    <i class="flaticon2-calendar-3 text-success"></i>
+                    <div class="dropdown-menu p-0 m-0 dropdown-menu-right dropdown-menu-anim-up dropdown-menu-lg p-0">
+                        <div class="d-flex align-items-center p-8 rounded-top">
+                            <div class="text-dark m-0 flex-grow-1 mr-3 font-size-h5">{{ Auth::user()->username }}</div>
+                            <span class="label label-primary label-lg font-weight-bold label-inline">{{ Auth::user()->balance }} &nbsp; <img src="{{ asset('assets/media/gem-coin.png') }}"></span>
+                        </div>
+                        <div class="separator separator-solid"></div>
+                        <div class="navi navi-spacer-x-0 pt-5">
+                            <a href="#" class="navi-item px-8">
+                                <div class="navi-link">
+                                    <div class="navi-icon mr-2">
+                                        <i class="flaticon2-calendar-3 text-success"></i>
+                                    </div>
+                                    <div class="navi-text">
+                                        <div class="font-weight-bold">My Profile</div>
+                                        <div class="text-muted">Account settings and more</div>
+                                    </div>
                                 </div>
-                                <div class="navi-text">
-                                    <div class="font-weight-bold">My Profile</div>
-                                    <div class="text-muted">Account settings and more</div>
-                                </div>
+                            </a>
+                            <div class="navi-separator mt-3"></div>
+                            <div class="navi-footer px-8 py-5">
+                                <form action="{{ route('logout') }}" method="post">
+                                    @csrf
+                                    <button type="submit" class="btn btn-light-primary font-weight-bold">Logout</button>
+                                </form>
+                                <a href="#" target="_blank" class="btn btn-clean font-weight-bold">Purchase Gems</a>
                             </div>
-                        </a>
-                        <div class="navi-separator mt-3"></div>
-                        <div class="navi-footer px-8 py-5">
-                            <a href="#" target="_blank" class="btn btn-light-primary font-weight-bold">Sign Out</a>
-                            <a href="#" target="_blank" class="btn btn-clean font-weight-bold">Purchase Gems</a>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        @endauth
     </div>
 </div>
 

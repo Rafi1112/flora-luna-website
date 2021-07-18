@@ -2,8 +2,8 @@
     <div class="container">
         <div id="kt_header_menu" class="header-menu header-menu-left header-menu-mobile header-menu-layout-default header-menu-root-arrow">
             <ul class="menu-nav">
-                <li class="menu-item menu-item-here" data-menu-toggle="click" aria-haspopup="true">
-                    <a href="/" class="menu-link menu-toggle">
+                <li class="menu-item menu-item-here">
+                    <a href="{{ route('index') }}" class="menu-link">
                         <span class="menu-text">Home</span>
                     </a>
                 </li>

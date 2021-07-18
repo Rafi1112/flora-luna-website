@@ -8,39 +8,46 @@
                 <span class="font-size-h3 font-weight-bolder text-dark">Member Panel</span>
             </h3>
         </div>
-        <!--begin::Body-->
         <div class="card-body pt-5">
+            @auth
+                <div>
+                    <table class="table table-borderless">
+                        <tbody>
+                        <tr>
+                            <td>Username</td>
+                            <td>:</td>
+                            <td>{{ Auth::user()->username }}</td>
+                        </tr>
+                        <tr>
+                            <td>Email</td>
+                            <td>:</td>
+                            <td>
+                                {{ substr(Auth::user()->email, 0, 2).'**'.substr(Auth::user()->email, strpos(Auth::user()->email, "@")) }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Balance</td>
+                            <td>:</td>
+                            <td>{{ Auth::user()->balance }} <img src="{{ asset('assets/media/gem-coin.png') }}"> </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="mt-5">
+                    <a href="#" class="btn btn-primary btn-block font-weight-bolder btn-sm">Account Setting</a>
+                    <a href="#" class="btn btn-primary btn-block font-weight-bolder btn-sm">History</a>
+                    <a href="#" class="btn btn-success btn-block font-weight-bolder btn-sm">Purchase Gems</a>
+                    <form action="{{ route('logout') }}" method="post">
+                        @csrf
+                        <button type="submit" class="btn btn-danger btn-block font-weight-bolder btn-sm mt-2">Logout</button>
+                    </form>
+                </div>
+            @else
             <div>
-                <a href="#" class="btn btn-primary btn-block font-weight-bolder btn-sm">Login</a>
-                <a href="#" class="btn btn-light-success btn-block font-weight-bolder btn-sm">Register</a>
+                <a href="{{ route('login') }}" class="btn btn-primary btn-block font-weight-bolder btn-sm">Login</a>
+                <a href="{{ route('register') }}" class="btn btn-light-success btn-block font-weight-bolder btn-sm">Register</a>
             </div>
-{{--            <div>--}}
-{{--                <table class="table table-borderless">--}}
-{{--                    <tbody>--}}
-{{--                    <tr>--}}
-{{--                        <td>Username</td>--}}
-{{--                        <td>:</td>--}}
-{{--                        <td>yoursoulismine</td>--}}
-{{--                    </tr>--}}
-{{--                    <tr>--}}
-{{--                        <td>Email</td>--}}
-{{--                        <td>:</td>--}}
-{{--                        <td>raf****@digitalknowledge.com</td>--}}
-{{--                    </tr>--}}
-{{--                    <tr>--}}
-{{--                        <td>Gems</td>--}}
-{{--                        <td>:</td>--}}
-{{--                        <td>900 <img src="{{ asset('assets/media/gem-coin.png') }}"> </td>--}}
-{{--                    </tr>--}}
-{{--                    </tbody>--}}
-{{--                </table>--}}
-{{--            </div>--}}
-{{--            <div class="mt-5">--}}
-{{--                <a href="#" class="btn btn-primary btn-block font-weight-bolder btn-sm">Account Setting</a>--}}
-{{--                <a href="#" class="btn btn-primary btn-block font-weight-bolder btn-sm">History</a>--}}
-{{--                <a href="#" class="btn btn-success btn-block font-weight-bolder btn-sm">Purchase Gems</a>--}}
-{{--                <a href="#" class="btn btn-danger btn-block font-weight-bolder btn-sm">Logout</a>--}}
-{{--            </div>--}}
+            @endauth
         </div>
     </div>
     <div class="card card-custom gutter-b">
@@ -58,7 +65,7 @@
                         </div>
                         <div class="d-block text-center">
                             <div class="d-block mt-2"><span class="card-label font-weight-bolder text-dark">Bachelor</span></div>
-                            <a href="#" class="btn btn-primary mt-2">150 <img src="{{ asset('assets/media/gem-coin.png') }}"></a>
+                            <a href="#" class="btn btn-sm btn-primary mt-2">150 <img src="{{ asset('assets/media/gem-coin.png') }}"></a>
                         </div>
                     </div>
                     <div class="carousel-item active">
@@ -67,7 +74,7 @@
                         </div>
                         <div class="d-block text-center">
                             <div class="d-block mt-2"><span class="card-label font-weight-bolder text-dark">BWL</span></div>
-                            <a href="#" class="btn btn-primary mt-2">200 <img src="{{ asset('assets/media/gem-coin.png') }}"></a>
+                            <a href="#" class="btn btn-sm btn-primary mt-2">200 <img src="{{ asset('assets/media/gem-coin.png') }}"></a>
                         </div>
                     </div>
                 </div>
