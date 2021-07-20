@@ -2,7 +2,7 @@
     <div class="container">
         <div id="kt_header_menu" class="header-menu header-menu-left header-menu-mobile header-menu-layout-default header-menu-root-arrow">
             <ul class="menu-nav">
-                <li class="menu-item menu-item-here">
+                <li class="menu-item {{ Request::is('/') ? 'menu-item-here' : '' }}">
                     <a href="{{ route('index') }}" class="menu-link">
                         <span class="menu-text">Home</span>
                     </a>
@@ -106,7 +106,9 @@
                         <span class="menu-text">Help</span>
                     </a>
                 </li>
-                <li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="click" aria-haspopup="true">
+                <li class="menu-item menu-item-submenu menu-item-rel menu-item-open-dropdown
+                    {{ Request::segment(1) === 'p' ? 'menu-item-open menu-item-here' : '' }}"
+                    data-menu-toggle="click" aria-haspopup="true">
                     <a href="javascript:;" class="menu-link menu-toggle">
                         <span class="menu-text">Dashboard</span>
                         <span class="menu-desc"></span>
@@ -260,7 +262,8 @@
                                     </ul>
                                 </div>
                             </li>
-                            <li class="menu-item menu-item-submenu" data-menu-toggle="hover" aria-haspopup="true">
+                            <li class="menu-item menu-item-submenu {{ Request::segment(2) === 'role-permission' ? 'menu-item-open menu-item-here' : '' }}"
+                                data-menu-toggle="hover" aria-haspopup="true">
                                 <a href="javascript:;" class="menu-link menu-toggle">
                                     <span class="menu-icon"><i class="fas fa-exchange-alt"></i></span>
                                     <span class="menu-text">Role and Permission</span>
@@ -268,20 +271,28 @@
                                 </a>
                                 <div class="menu-submenu menu-submenu-classic menu-submenu-right">
                                     <ul class="menu-subnav">
-                                        <li class="menu-item" aria-haspopup="true">
-                                            <a href="#" class="menu-link">
+                                        <li class="menu-item {{ Request::segment(3) === 'role' ? 'menu-item-active' : '' }}" aria-haspopup="true">
+                                            <a href="{{ route('role.index') }}" class="menu-link">
                                                 <i class="menu-bullet menu-bullet-dot">
                                                     <span></span>
                                                 </i>
                                                 <span class="menu-text">Role</span>
                                             </a>
                                         </li>
-                                        <li class="menu-item" aria-haspopup="true">
-                                            <a href="#" class="menu-link">
+                                        <li class="menu-item {{ Request::segment(3) === 'permission' ? 'menu-item-active' : '' }}" aria-haspopup="true">
+                                            <a href="{{ route('permission.index') }}" class="menu-link">
                                                 <i class="menu-bullet menu-bullet-dot">
                                                     <span></span>
                                                 </i>
                                                 <span class="menu-text">Permission</span>
+                                            </a>
+                                        </li>
+                                        <li class="menu-item {{ Request::segment(3) === 'sync' ? 'menu-item-active' : '' }}" aria-haspopup="true">
+                                            <a href="{{ route('sync.index') }}" class="menu-link">
+                                                <i class="menu-bullet menu-bullet-dot">
+                                                    <span></span>
+                                                </i>
+                                                <span class="menu-text">Synchronize Role Permission</span>
                                             </a>
                                         </li>
                                         <li class="menu-item" aria-haspopup="true">
@@ -289,7 +300,7 @@
                                                 <i class="menu-bullet menu-bullet-dot">
                                                     <span></span>
                                                 </i>
-                                                <span class="menu-text">Synchronize Role Permission</span>
+                                                <span class="menu-text">User Role</span>
                                             </a>
                                         </li>
                                     </ul>
