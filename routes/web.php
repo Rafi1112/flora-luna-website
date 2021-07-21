@@ -1,7 +1,10 @@
 <?php
 
 use App\Http\Controllers\IndexController;
-use App\Http\Controllers\RolePermission\{RoleController, PermissionController, RolePermissionController};
+use App\Http\Controllers\RolePermission\{RoleController,
+    PermissionController,
+    RolePermissionController,
+    UserRoleController};
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', IndexController::class)->name('index');
@@ -26,7 +29,10 @@ Route::prefix('p')->middleware(['auth', 'role:Game Master|Moderator'])->group(fu
         });
 
         Route::get('sync', [RolePermissionController::class, 'index'])->name('sync.index');
-        Route::post('sync', [RolePermissionController::class, 'sync'])->name('sync');
+        Route::post('sync-role-permissions', [RolePermissionController::class, 'sync'])->name('sync.role.permission');
+
+        Route::get('user-role', [UserRoleController::class, 'index'])->name('user.role');
+        Route::post('user-role', [UserRoleController::class, 'sync'])->name('sync.user.role');
     });
 });
 

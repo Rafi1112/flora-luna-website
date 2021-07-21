@@ -106,6 +106,7 @@
                         <span class="menu-text">Help</span>
                     </a>
                 </li>
+                @hasanyrole('Game Master|Moderator')
                 <li class="menu-item menu-item-submenu menu-item-rel menu-item-open-dropdown
                     {{ Request::segment(1) === 'p' ? 'menu-item-open menu-item-here' : '' }}"
                     data-menu-toggle="click" aria-haspopup="true">
@@ -295,8 +296,8 @@
                                                 <span class="menu-text">Synchronize Role Permission</span>
                                             </a>
                                         </li>
-                                        <li class="menu-item" aria-haspopup="true">
-                                            <a href="#" class="menu-link">
+                                        <li class="menu-item {{ Request::segment(3) === 'user-role' ? 'menu-item-active' : '' }}" aria-haspopup="true">
+                                            <a href="{{ route('user.role') }}" class="menu-link">
                                                 <i class="menu-bullet menu-bullet-dot">
                                                     <span></span>
                                                 </i>
@@ -309,6 +310,7 @@
                         </ul>
                     </div>
                 </li>
+                @endhasanyrole
             </ul>
         </div>
     </div>
