@@ -177,7 +177,8 @@
                                     </ul>
                                 </div>
                             </li>
-                            <li class="menu-item menu-item-submenu" data-menu-toggle="hover" aria-haspopup="true">
+                            <li class="menu-item menu-item-submenu {{ Request::segment(2) === 'announcement' ? 'menu-item-open menu-item-here' : '' }}"
+                                data-menu-toggle="hover" aria-haspopup="true">
                                 <a href="javascript:;" class="menu-link menu-toggle">
                                     <span class="menu-icon"><i class="fas fa-newspaper"></i></span>
                                     <span class="menu-text">Announcement</span>
@@ -185,24 +186,24 @@
                                 </a>
                                 <div class="menu-submenu menu-submenu-classic menu-submenu-right">
                                     <ul class="menu-subnav">
-                                        <li class="menu-item" aria-haspopup="true">
-                                            <a href="#" class="menu-link">
+                                        <li class="menu-item {{ Request::segment(3) === '/' ? 'menu-item-active' : '' }}" aria-haspopup="true">
+                                            <a href="{{ route('article.index') }}" class="menu-link">
                                                 <i class="menu-bullet menu-bullet-dot">
                                                     <span></span>
                                                 </i>
                                                 <span class="menu-text">List Announcement</span>
                                             </a>
                                         </li>
-                                        <li class="menu-item" aria-haspopup="true">
-                                            <a href="#" class="menu-link">
+                                        <li class="menu-item {{ Request::segment(3) === 'create' ? 'menu-item-active' : '' }}" aria-haspopup="true">
+                                            <a href="{{ route('article.create') }}" class="menu-link">
                                                 <i class="menu-bullet menu-bullet-dot">
                                                     <span></span>
                                                 </i>
                                                 <span class="menu-text">Create Announcement</span>
                                             </a>
                                         </li>
-                                        <li class="menu-item" aria-haspopup="true">
-                                            <a href="#" class="menu-link">
+                                        <li class="menu-item {{ Request::segment(3) === 'category' ? 'menu-item-active' : '' }}" aria-haspopup="true">
+                                            <a href="{{ route('article.category') }}" class="menu-link">
                                                 <i class="menu-bullet menu-bullet-dot">
                                                     <span></span>
                                                 </i>

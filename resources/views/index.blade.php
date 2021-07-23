@@ -36,25 +36,26 @@
                     </div>
                 </div>
                 <div class="mb-5">
+                    @foreach($articles->slice(0,1) as $article)
                     <div class="d-flex float-left mr-3">
                         <img src="http://blossom-luna-website.test/templates/images/news-event-s.png" alt="">
                     </div>
                     <div class="p-2">
                         <div class="d-block">
-                            <h4 class="font-size-h3 font-weight-bolder text-dark">Welcoming Spring Blossoms</h4>
+                            <h4 class="font-size-h3 font-weight-bolder text-dark">{{ $article->title }}</h4>
                             <hr class="m-0">
                             <div class="d-flex mt-3">
-                                <span class="label label-info label-pill label-inline mr-2">Event</span>
-                                <p>14 July 2021, 16:40:09</p>
+                                <span class="label {{ $article->article_category_id == 1 ? 'label-info' : 'label-danger' }} label-pill label-inline mr-2">{{ $article->category->name }}</span>
+                                <p>{{ $article->created_at->format('d F Y, H:i:s') }}</p>
                             </div>
                         </div>
                     </div>
-                    <div class="p-2 card card-body border-0">
-                        <img src="{{ asset('assets/media/bg0.jpeg') }}" alt="">
-                        <p class="mt-5">
-                            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Modi pariatur aspernatur dolore cumque ad nobis necessitatibus fuga quis architecto adipisci tenetur esse doloremque aliquid ab deleniti magni illo totam incidunt optio sapiente, molestiae labore veniam sequi earum. Doloremque obcaecati nulla nisi magnam quis temporibus mollitia provident, rerum beatae illum sapiente aspernatur eaque voluptatum, fugiat consequatur, minus expedita ratione iste perspiciatis nobis dolore iusto eos reprehenderit. Enim quia commodi architecto libero consequuntur maiores itaque ducimus ipsam sed fugit. Facilis possimus animi consectetur placeat, numquam ut dolorum quos aperiam sed earum illo magnam mollitia? Dolorem magni esse rem enim aperiam eligendi optio quasi quod, rerum quia exercitationem, laboriosam assumenda distinctio et hic doloribus quibusdam. Sapiente, mollitia quae. Vel consectetur odio fugiat sed vero ad delectus labore, aut, animi perferendis sequi? Ab quia iure incidunt dolores repudiandae ea non voluptas iusto ut necessitatibus quibusdam mollitia suscipit repellendus possimus accusamus perferendis dignissimos sunt error, inventore expedita earum corporis praesentium, odit rem. Unde consequatur illo cumque molestiae non, explicabo pariatur cupiditate dicta iste voluptate voluptatem odio deleniti inventore consequuntur! Nemo quisquam culpa at sint, quod voluptas deleniti veniam nobis molestiae et laboriosam nesciunt? Et iste ducimus accusamus sit cupiditate, officia quam aliquid voluptates in sint nulla repellendus voluptatum laudantium vel, dolorum dolor sunt odio? Esse quae quos at voluptas aliquid reiciendis nostrum harum molestias molestiae ipsa incidunt quam, vitae inventore ex laboriosam ipsum nemo dolores perspiciatis cumque architecto temporibus. Reiciendis perspiciatis omnis tempore, laboriosam sint explicabo molestiae natus provident. Beatae voluptates molestias aspernatur consequatur dolor!
+                    <div class="p-2">
+                        <p>
+                            {!! nl2br($article->content) !!}
                         </p>
                     </div>
+                    @endforeach
                     <div class="p-2">
                         <h2 class="font-size-h2 font-weight-bolder text-dark mb-5">Game Announcement</h2>
                         <div class="table-responsive">
@@ -67,12 +68,24 @@
                                 </tr>
                                 </thead>
                                 <tbody>
+                                @forelse($articles->slice(1, 6) as $article)
                                 <tr>
-                                    <td width="80"><span class="label label-info label-pill label-inline mr-2">Event</span></td>
-                                    <td>Take me back to flora!</td>
-                                    <td width="120">14 July 2021</td>
+                                    <td width="80">
+                                        <span class="label {{ $article->article_category_id == 1 ? 'label-info' : 'label-danger' }} label-pill label-inline mr-2">
+                                            {{ $article->category->name }}
+                                        </span>
+                                    </td>
+                                    <td>{{ $article->title }}</td>
+                                    <td width="120">{{ $article->created_at->format('d F Y') }}</td>
                                 </tr>
                                 </tbody>
+                                @empty
+                                    <tr>
+                                        <td colspan="3" class="text-center">
+                                            No announcement found.
+                                        </td>
+                                    </tr>
+                                @endforelse
                             </table>
                         </div>
                     </div>

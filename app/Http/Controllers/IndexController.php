@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Article\Article;
 use Illuminate\Http\Request;
 
 class IndexController extends Controller
@@ -14,6 +15,7 @@ class IndexController extends Controller
      */
     public function __invoke(Request $request)
     {
-        return view('index');
+        $articles = Article::with('category')->latest()->get();
+        return view('index', compact('articles'));
     }
 }
