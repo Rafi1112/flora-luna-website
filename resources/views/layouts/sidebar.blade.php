@@ -34,7 +34,7 @@
                     </table>
                 </div>
                 <div class="mt-5">
-                    <a href="#" class="btn btn-primary btn-block font-weight-bolder btn-sm">Account Setting</a>
+                    <a href="{{ route('account') }}" class="btn btn-primary btn-block font-weight-bolder btn-sm">Account Setting</a>
                     <a href="#" class="btn btn-primary btn-block font-weight-bolder btn-sm">History</a>
                     <a href="#" class="btn btn-success btn-block font-weight-bolder btn-sm">Purchase Gems</a>
                     <form action="{{ route('logout') }}" method="post">

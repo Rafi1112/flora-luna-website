@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Account\AccountController;
 use App\Http\Controllers\Article\{ArticleController, ArticleCategoryController};
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\RolePermission\{RoleController,
@@ -9,6 +10,10 @@ use App\Http\Controllers\RolePermission\{RoleController,
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', IndexController::class)->name('index');
+Route::get('account', [AccountController::class, 'index'])->middleware('auth')->name('account');
+Route::put('account', [AccountController::class, 'updateProfile'])->middleware('auth');
+Route::get('account/change-password', [AccountController::class, 'changePassword'])->name('change.password');
+Route::put('account/change-password', [AccountController::class, 'updatePassword']);
 
 Route::prefix('p')->middleware(['auth', 'role:Game Master|Moderator'])->group(function () {
     Route::prefix('announcement')->middleware(['permission:create post'])->group(function () {
