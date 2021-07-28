@@ -70,8 +70,8 @@
                         </ul>
                     </div>
                 </li>
-                <li class="menu-item" data-menu-toggle="click" aria-haspopup="true">
-                    <a href="/" class="menu-link menu-toggle">
+                <li class="menu-item {{ Request::is('itemshop') ? 'menu-item-here' : '' }}">
+                    <a href="{{ route('store') }}" class="menu-link">
                         <span class="menu-text">Item Store</span>
                     </a>
                 </li>
@@ -213,7 +213,8 @@
                                     </ul>
                                 </div>
                             </li>
-                            <li class="menu-item menu-item-submenu" data-menu-toggle="hover" aria-haspopup="true">
+                            <li class="menu-item menu-item-submenu {{ Request::segment(2) === 'product' ? 'menu-item-open menu-item-here' : '' }}"
+                                data-menu-toggle="hover" aria-haspopup="true">
                                 <a href="javascript:;" class="menu-link menu-toggle">
                                     <span class="menu-icon"><i class="fas fa-cubes"></i></span>
                                     <span class="menu-text">Product</span>
@@ -253,8 +254,8 @@
                                                 <span class="menu-text">Create Item</span>
                                             </a>
                                         </li>
-                                        <li class="menu-item" aria-haspopup="true">
-                                            <a href="#" class="menu-link">
+                                        <li class="menu-item {{ Request::segment(3) === 'category' ? 'menu-item-active' : '' }}" aria-haspopup="true">
+                                            <a href="{{ route('product.category.index') }}" class="menu-link">
                                                 <i class="menu-bullet menu-bullet-dot">
                                                     <span></span>
                                                 </i>

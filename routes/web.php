@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\Account\AccountController;
 use App\Http\Controllers\Article\{ArticleController, ArticleCategoryController};
-use App\Http\Controllers\IndexController;
+use App\Http\Controllers\{IndexController, Product\ProductCategoryController, StoreController};
 use App\Http\Controllers\RolePermission\{RoleController,
     PermissionController,
     RolePermissionController,
@@ -10,10 +10,16 @@ use App\Http\Controllers\RolePermission\{RoleController,
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', IndexController::class)->name('index');
-Route::get('account', [AccountController::class, 'index'])->middleware('auth')->name('account');
-Route::put('account', [AccountController::class, 'updateProfile'])->middleware('auth');
-Route::get('account/change-password', [AccountController::class, 'changePassword'])->name('change.password');
-Route::put('account/change-password', [AccountController::class, 'updatePassword']);
+Route::prefix('account')->middleware('auth')->group(function () {
+    Route::get('', [AccountController::class, 'index'])->name('account');
+    Route::put('', [AccountController::class, 'updateProfile']);
+    Route::get('change-password', [AccountController::class, 'changePassword'])->name('change.password');
+    Route::put('change-password', [AccountController::class, 'updatePassword']);
+});
+
+Route::prefix('itemshop')->group(function () {
+    Route::get('', [StoreController::class, 'index'])->name('store');
+});
 
 Route::prefix('p')->middleware(['auth', 'role:Game Master|Moderator'])->group(function () {
     Route::prefix('announcement')->middleware(['permission:create post'])->group(function () {
@@ -31,6 +37,13 @@ Route::prefix('p')->middleware(['auth', 'role:Game Master|Moderator'])->group(fu
             Route::put('{category:slug}', [ArticleCategoryController::class, 'update'])->name('article.category.update');
             Route::delete('{category:slug}', [ArticleCategoryController::class, 'destroy'])->name('article.category.delete');
         });
+    });
+    Route::prefix('product')->middleware(['permission:create product|create item'])->group(function () {
+        Route::get('category', [ProductCategoryController::class, 'index'])->name('product.category.index');
+        Route::post('category', [ProductCategoryController::class, 'store'])->name('product.category.store');
+        Route::get('category/{category:slug}/edit', [ProductCategoryController::class, 'edit'])->name('product.category.edit');
+        Route::put('category/{category:slug}/edit', [ProductCategoryController::class, 'update']);
+        Route::delete('category/{category:slug}/delete', [ProductCategoryController::class, 'destroy'])->name('product.category.delete');
     });
     Route::prefix('role-permission')->middleware(['permission:assign permission'])->group(function () {
 
