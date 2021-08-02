@@ -18,7 +18,7 @@ class CreateProductLabelsTable extends Migration
             $table->string('name');
             $table->string('slug');
             $table->string('description')->nullable();
-            $table->string('label_image')->nullable();
+            $table->string('image')->nullable();
             $table->timestamps();
         });
     }

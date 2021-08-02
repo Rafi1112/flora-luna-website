@@ -2,7 +2,10 @@
 
 use App\Http\Controllers\Account\AccountController;
 use App\Http\Controllers\Article\{ArticleController, ArticleCategoryController};
-use App\Http\Controllers\{IndexController, Product\ProductCategoryController, StoreController};
+use App\Http\Controllers\{IndexController,
+    Product\ProductCategoryController,
+    Product\ProductLabelController,
+    StoreController};
 use App\Http\Controllers\RolePermission\{RoleController,
     PermissionController,
     RolePermissionController,
@@ -23,6 +26,13 @@ Route::prefix('itemshop')->group(function () {
 
 Route::prefix('p')->middleware(['auth', 'role:Game Master|Moderator'])->group(function () {
     Route::prefix('announcement')->middleware(['permission:create post'])->group(function () {
+        Route::prefix('category')->group(function () {
+            Route::get('', [ArticleCategoryController::class, 'index'])->name('article.category');
+            Route::post('', [ArticleCategoryController::class, 'store']);
+            Route::get('{category:slug}', [ArticleCategoryController::class, 'edit'])->name('article.category.edit');
+            Route::put('{category:slug}', [ArticleCategoryController::class, 'update'])->name('article.category.update');
+            Route::delete('{category:slug}', [ArticleCategoryController::class, 'destroy'])->name('article.category.delete');
+        });
         Route::get('', [ArticleController::class, 'index'])->name('article.index');
         Route::get('create', [ArticleController::class, 'create'])->name('article.create');
         Route::post('create', [ArticleController::class, 'store']);
@@ -30,20 +40,24 @@ Route::prefix('p')->middleware(['auth', 'role:Game Master|Moderator'])->group(fu
         Route::put('{article:slug}', [ArticleController::class, 'update']);
         Route::delete('{article:slug}', [ArticleController::class, 'destroy'])->name('article.delete');
         Route::post('/image-content/delete', [ArticleController::class, 'deleteImageContent'])->name('delete.content.image');
-        Route::prefix('category')->group(function () {
-            Route::get('', [ArticleCategoryController::class, 'index'])->name('article.category');
-            Route::post('', [ArticleCategoryController::class, 'store'])->name('article.category');
-            Route::get('{category:slug}', [ArticleCategoryController::class, 'edit'])->name('article.category.edit');
-            Route::put('{category:slug}', [ArticleCategoryController::class, 'update'])->name('article.category.update');
-            Route::delete('{category:slug}', [ArticleCategoryController::class, 'destroy'])->name('article.category.delete');
-        });
     });
+
     Route::prefix('product')->middleware(['permission:create product|create item'])->group(function () {
-        Route::get('category', [ProductCategoryController::class, 'index'])->name('product.category.index');
-        Route::post('category', [ProductCategoryController::class, 'store'])->name('product.category.store');
-        Route::get('category/{category:slug}/edit', [ProductCategoryController::class, 'edit'])->name('product.category.edit');
-        Route::put('category/{category:slug}/edit', [ProductCategoryController::class, 'update']);
-        Route::delete('category/{category:slug}/delete', [ProductCategoryController::class, 'destroy'])->name('product.category.delete');
+        Route::prefix('category')->group(function () {
+            Route::get('', [ProductCategoryController::class, 'index'])->name('product.category.index');
+            Route::post('', [ProductCategoryController::class, 'store'])->name('product.category.store');
+            Route::get('{category:slug}/edit', [ProductCategoryController::class, 'edit'])->name('product.category.edit');
+            Route::put('{category:slug}/edit', [ProductCategoryController::class, 'update']);
+            Route::delete('{category:slug}/delete', [ProductCategoryController::class, 'destroy'])->name('product.category.delete');
+        });
+
+        Route::prefix('label')->group(function () {
+            Route::get('', [ProductLabelController::class, 'index'])->name('label.index');
+            Route::post('', [ProductLabelController::class, 'store'])->name('label.store');
+            Route::get('{label:slug}/edit', [ProductLabelController::class, 'edit'])->name('label.edit');
+            Route::put('{label:slug}/edit', [ProductLabelController::class, 'update']);
+            Route::delete('{label:slug}/delete', [ProductLabelController::class, 'destroy'])->name('label.destroy');
+        });
     });
     Route::prefix('role-permission')->middleware(['permission:assign permission'])->group(function () {
 

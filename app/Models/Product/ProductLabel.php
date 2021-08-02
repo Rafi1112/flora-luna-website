@@ -15,4 +15,9 @@ class ProductLabel extends Model
     {
         return $this->hasMany(Product::class, 'product_label_id');
     }
+
+    public function getLabelImageAttribute()
+    {
+        return "/storage/" . $this->image;
+    }
 }

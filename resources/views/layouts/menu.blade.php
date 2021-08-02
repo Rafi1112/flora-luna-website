@@ -262,6 +262,14 @@
                                                 <span class="menu-text">Category</span>
                                             </a>
                                         </li>
+                                        <li class="menu-item {{ Request::segment(3) === 'label' ? 'menu-item-active' : '' }}" aria-haspopup="true">
+                                            <a href="{{ route('label.index') }}" class="menu-link">
+                                                <i class="menu-bullet menu-bullet-dot">
+                                                    <span></span>
+                                                </i>
+                                                <span class="menu-text">Label</span>
+                                            </a>
+                                        </li>
                                     </ul>
                                 </div>
                             </li>

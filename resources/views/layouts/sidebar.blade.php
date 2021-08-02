@@ -28,7 +28,7 @@
                         <tr>
                             <td>Balance</td>
                             <td>:</td>
-                            <td>{{ Auth::user()->balance }} <img src="{{ asset('assets/media/gem-coin.png') }}"> </td>
+                            <td class="d-flex align-items-center">{{ Auth::user()->balance }} <img src="{{ asset('assets/media/gem-coin.png') }}" class="ml-1"> </td>
                         </tr>
                         </tbody>
                     </table>
