@@ -54,7 +54,12 @@ class ArticleCategoryController extends Controller
 
     public function destroy(ArticleCategory $category)
     {
-        $category->delete();
-        return redirect()->back()->with("success", "Category announcement has been deleted.");
+        $category->has('articles')->get();
+        if ($category->articles()->exists()) {
+            return redirect()->back()->with("error", "The action is denied. The category has relation to article.");
+        } else {
+            $category->delete();
+            return redirect()->back()->with("success", "Category announcement has been deleted.");
+        }
     }
 }

@@ -20,7 +20,7 @@
     </div>
     <div class="form-group">
         <label for="article_content">Article Content <span class="text-danger">*</span></label>
-        <textarea class="summernote @error('article_content') is-invalid @enderror" id="article_content" name="article_content">{!! nl2br($article->content) !!}</textarea>
+        <textarea class="summernote @error('article_content') is-invalid @enderror" id="article_content" name="article_content">{!! old('article_content') ?? nl2br($article->content) !!}</textarea>
         @error('article_content')
             <div class="invalid-feedback">{{ $message }}</div>
         @enderror
