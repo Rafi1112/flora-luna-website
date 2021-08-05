@@ -21,44 +21,46 @@
                 </h3>
             </div>
             <div class="card-body">
-                <table class="table">
-                    <thead>
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Name</th>
-                        <th scope="col">Slug</th>
-                        <th scope="col">Icon</th>
-                        <th scope="col">Action</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    @forelse($labels as $index => $label)
+                <div class="table-responsive-lg">
+                    <table class="table table-vertical-center">
+                        <thead>
                         <tr>
-                            <th scope="row">{{ $index + 1 }}</th>
-                            <td>{{ $label->name }}</td>
-                            <td>{{ $label->slug }}</td>
-                            <td>
-                                <img src="{{ $label->labelImage }}" alt="{{ $label->slug }}" width="30px" height="30px">
-                            </td>
-                            <td>
-                                <div class="row">
-                                    <a href="{{ route('label.edit', $label) }}" class="btn btn-primary btn-sm mr-2">Edit</a>
-                                    <form action="{{ route('label.destroy', $label) }}" method="post">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-danger btn-sm confirm-delete"
-                                                data-name="{{ $label->name }}">Delete</button>
-                                    </form>
-                                </div>
-                            </td>
+                            <th scope="col">#</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Slug</th>
+                            <th scope="col">Icon</th>
+                            <th scope="col">Action</th>
                         </tr>
-                    @empty
-                        <tr>
-                            <td colspan="5" class="text-center">No records found.</td>
-                        </tr>
-                    @endforelse
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                        @forelse($labels as $index => $label)
+                            <tr>
+                                <th scope="row">{{ $index + 1 }}</th>
+                                <td>{{ $label->name }}</td>
+                                <td>{{ $label->slug }}</td>
+                                <td>
+                                    <img src="{{ $label->labelImage }}" alt="{{ $label->slug }}" width="30px" height="30px">
+                                </td>
+                                <td>
+                                    <div class="row">
+                                        <a href="{{ route('label.edit', $label) }}" class="btn btn-primary btn-sm mr-2">Edit</a>
+                                        <form action="{{ route('label.destroy', $label) }}" method="post">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger btn-sm confirm-delete"
+                                                    data-name="{{ $label->name }}">Delete</button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="5" class="text-center">No records found.</td>
+                            </tr>
+                        @endforelse
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

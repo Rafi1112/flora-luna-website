@@ -25,4 +25,14 @@ class Product extends Model
     {
         return $this->belongsTo(ProductCategory::class, 'product_category_id');
     }
+
+    public function getProductHalfImageAttribute()
+    {
+        return "/storage/" . $this->half_image;
+    }
+
+    public function getProductFullImageAttribute()
+    {
+        return "/storage/" . $this->full_image;
+    }
 }

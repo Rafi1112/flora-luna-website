@@ -4,6 +4,7 @@ use App\Http\Controllers\Account\AccountController;
 use App\Http\Controllers\Article\{ArticleController, ArticleCategoryController};
 use App\Http\Controllers\{IndexController,
     Product\ProductCategoryController,
+    Product\ProductController,
     Product\ProductLabelController,
     StoreController};
 use App\Http\Controllers\RolePermission\{RoleController,
@@ -21,7 +22,9 @@ Route::prefix('account')->middleware('auth')->group(function () {
 });
 
 Route::prefix('itemshop')->group(function () {
+    Route::get('featured', [StoreController::class, 'index'])->name('store');
     Route::get('', [StoreController::class, 'index'])->name('store');
+    Route::get('/{category:url}', [StoreController::class, 'showByCategory'])->name('store.category');
 });
 
 Route::prefix('p')->middleware(['auth', 'role:Game Master|Moderator'])->group(function () {
@@ -43,6 +46,12 @@ Route::prefix('p')->middleware(['auth', 'role:Game Master|Moderator'])->group(fu
     });
 
     Route::prefix('product')->middleware(['permission:create product|create item'])->group(function () {
+        Route::get('list', [ProductController::class, 'index'])->name('product.index');
+        Route::get('create', [ProductController::class, 'create'])->name('product.create');
+        Route::post('create', [ProductController::class, 'store']);
+        Route::get('{product:slug}/edit', [ProductController::class, 'edit'])->name('product.edit');
+        Route::put('{product:slug}/edit', [ProductController::class, 'update']);
+        Route::delete('{product:slug}/delete', [ProductController::class, 'destroy'])->name('product.delete');
         Route::prefix('category')->group(function () {
             Route::get('', [ProductCategoryController::class, 'index'])->name('product.category.index');
             Route::post('', [ProductCategoryController::class, 'store'])->name('product.category.store');
@@ -50,7 +59,6 @@ Route::prefix('p')->middleware(['auth', 'role:Game Master|Moderator'])->group(fu
             Route::put('{category:slug}/edit', [ProductCategoryController::class, 'update']);
             Route::delete('{category:slug}/delete', [ProductCategoryController::class, 'destroy'])->name('product.category.delete');
         });
-
         Route::prefix('label')->group(function () {
             Route::get('', [ProductLabelController::class, 'index'])->name('label.index');
             Route::post('', [ProductLabelController::class, 'store'])->name('label.store');
