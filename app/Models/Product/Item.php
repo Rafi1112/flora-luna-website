@@ -15,4 +15,9 @@ class Item extends Model
     {
         return $this->belongsTo(Product::class, 'product_id');
     }
+
+    public function getItemIconAttribute()
+    {
+        return "/storage/" . $this->icon;
+    }
 }

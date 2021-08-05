@@ -230,8 +230,8 @@
                                                 <span class="menu-text">List Product</span>
                                             </a>
                                         </li>
-                                        <li class="menu-item" aria-haspopup="true">
-                                            <a href="#" class="menu-link">
+                                        <li class="menu-item {{ Request::segment(3) === 'item' ? 'menu-item-active' : '' }}" aria-haspopup="true">
+                                            <a href="{{ route('item.index') }}" class="menu-link">
                                                 <i class="menu-bullet menu-bullet-dot">
                                                     <span></span>
                                                 </i>
@@ -246,8 +246,8 @@
                                                 <span class="menu-text">Create Product</span>
                                             </a>
                                         </li>
-                                        <li class="menu-item" aria-haspopup="true">
-                                            <a href="#" class="menu-link">
+                                        <li class="menu-item {{ Request::segment(4) === 'create' ? 'menu-item-active' : '' }}" aria-haspopup="true">
+                                            <a href="{{ route('item.create') }}" class="menu-link">
                                                 <i class="menu-bullet menu-bullet-dot">
                                                     <span></span>
                                                 </i>
