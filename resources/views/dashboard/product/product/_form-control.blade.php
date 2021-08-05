@@ -1,42 +1,46 @@
 <div class="card-body">
-    <div class="form-group">
-        <label for="product_name">Product Name <span class="text-danger">*</span></label>
-        <input type="text" class="form-control @error('product_name') is-invalid @enderror" id="product_name" name="product_name"
-               placeholder="Enter product name" value="{{ old('product_name') ?? $product->name }}"/>
-        @error('product_name')
+    <div class="form-group row">
+        <div class="col-lg-6">
+            <label for="product_name">Product Name <span class="text-danger">*</span></label>
+            <input type="text" class="form-control @error('product_name') is-invalid @enderror" id="product_name" name="product_name"
+                   placeholder="Enter product name" value="{{ old('product_name') ?? $product->name }}"/>
+            @error('product_name')
             <div class="invalid-feedback">{{ $message }}</div>
-        @enderror
+            @enderror
+        </div>
+        <div class="col-lg-6">
+            <label for="product_category">Select Product Category <span class="text-danger">*</span></label>
+            <select class="form-control @error('product_category') is-invalid @enderror" id="product_category" name="product_category">
+                @foreach($categories as $category)
+                    <option value="{{ $category->id }}" {{ $product->product_category_id == $category->id ? 'selected' : '' }}>{{ $category->name }}</option>
+                @endforeach
+            </select>
+            @error('product_category')
+            <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+        </div>
     </div>
-    <div class="form-group">
-        <label for="product_category">Select Product Category <span class="text-danger">*</span></label>
-        <select class="form-control @error('product_category') is-invalid @enderror" id="product_category" name="product_category">
-            @foreach($categories as $category)
-                <option value="{{ $category->id }}" {{ $product->product_category_id == $category->id ? 'selected' : '' }}>{{ $category->name }}</option>
-            @endforeach
-        </select>
-        @error('product_category')
+    <div class="form-group row">
+        <div class="col-lg-6">
+            <label for="product_price">Product Price <span class="text-danger">*</span></label>
+            <input type="number" class="form-control @error('product_price') is-invalid @enderror" id="product_price" name="product_price"
+                   placeholder="Enter product price" value="{{ old('product_price') ?? $product->price }}"/>
+            @error('product_price')
             <div class="invalid-feedback">{{ $message }}</div>
-        @enderror
-    </div>
-    <div class="form-group">
-        <label for="product_label">Select Product Label <span class="text-danger">*</span></label>
-        <select class="form-control @error('product_label') is-invalid @enderror" id="product_label" name="product_label">
-            <option value="0" {{ $product->product_label_id === null ? 'selected' : '' }}>NONE</option>
-            @foreach($labels as $label)
-                <option value="{{ $label->id }}" {{ $product->product_label_id == $label->id ? 'selected' : '' }}>{{ $label->name }}</option>
-            @endforeach
-        </select>
-        @error('product_label')
+            @enderror
+        </div>
+        <div class="col-lg-6">
+            <label for="product_label">Select Product Label <span class="text-danger">*</span></label>
+            <select class="form-control @error('product_label') is-invalid @enderror" id="product_label" name="product_label">
+                <option value="0" {{ $product->product_label_id === null ? 'selected' : '' }}>NONE</option>
+                @foreach($labels as $label)
+                    <option value="{{ $label->id }}" {{ $product->product_label_id == $label->id ? 'selected' : '' }}>{{ $label->name }}</option>
+                @endforeach
+            </select>
+            @error('product_label')
             <div class="invalid-feedback">{{ $message }}</div>
-        @enderror
-    </div>
-    <div class="form-group">
-        <label for="product_price">Product Price <span class="text-danger">*</span></label>
-        <input type="number" class="form-control @error('product_price') is-invalid @enderror" id="product_price" name="product_price"
-               placeholder="Enter product price" value="{{ old('product_price') ?? $product->price }}"/>
-        @error('product_price')
-            <div class="invalid-feedback">{{ $message }}</div>
-        @enderror
+            @enderror
+        </div>
     </div>
     <div class="form-group">
         <label for="product_description">Product Description <span class="text-danger">*</span></label>
@@ -64,8 +68,13 @@
                         <input type="file" name="product_half_image" accept=".png, .jpg, .jpeg">
                     </label>
                     <span class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="cancel" data-toggle="tooltip" title="" data-original-title="Cancel image">
-                    <i class="ki ki-bold-close icon-xs text-muted"></i>
-                </span>
+                        <i class="ki ki-bold-close icon-xs text-muted"></i>
+                    </span>
+                    @isset($product->half_image)
+                        <span class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="remove" data-toggle="tooltip" title="" data-original-title="Remove image">
+                            <i class="ki ki-bold-close icon-xs text-muted"></i>
+                        </span>
+                    @endisset
                 </div>
                 <span class="form-text text-muted">Allowed file types: png, jpg, jpeg.</span>
             </div>
@@ -83,8 +92,13 @@
                         <input type="file" name="product_full_image" accept=".png, .jpg, .jpeg">
                     </label>
                     <span class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="cancel" data-toggle="tooltip" title="" data-original-title="Cancel image">
-                    <i class="ki ki-bold-close icon-xs text-muted"></i>
-                </span>
+                        <i class="ki ki-bold-close icon-xs text-muted"></i>
+                    </span>
+                    @isset($product->full_image)
+                        <span class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="remove" data-toggle="tooltip" title="" data-original-title="Remove image">
+                            <i class="ki ki-bold-close icon-xs text-muted"></i>
+                        </span>
+                    @endisset
                 </div>
             </div>
             @error('product_full_image')

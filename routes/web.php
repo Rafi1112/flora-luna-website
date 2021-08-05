@@ -3,6 +3,7 @@
 use App\Http\Controllers\Account\AccountController;
 use App\Http\Controllers\Article\{ArticleController, ArticleCategoryController};
 use App\Http\Controllers\{IndexController,
+    Product\ItemController,
     Product\ProductCategoryController,
     Product\ProductController,
     Product\ProductLabelController,
@@ -46,12 +47,22 @@ Route::prefix('p')->middleware(['auth', 'role:Game Master|Moderator'])->group(fu
     });
 
     Route::prefix('product')->middleware(['permission:create product|create item'])->group(function () {
+
         Route::get('list', [ProductController::class, 'index'])->name('product.index');
         Route::get('create', [ProductController::class, 'create'])->name('product.create');
         Route::post('create', [ProductController::class, 'store']);
         Route::get('{product:slug}/edit', [ProductController::class, 'edit'])->name('product.edit');
         Route::put('{product:slug}/edit', [ProductController::class, 'update']);
         Route::delete('{product:slug}/delete', [ProductController::class, 'destroy'])->name('product.delete');
+
+        Route::prefix('item')->group(function () {
+            Route::get('', [ItemController::class, 'index'])->name('item.index');
+            Route::get('create', [ItemController::class, 'create'])->name('item.create');
+            Route::post('create', [ItemController::class, 'store']);
+            Route::get('{item}/edit', [ItemController::class, 'edit'])->name('item.edit');
+            Route::put('{item}/edit', [ItemController::class, 'update']);
+            Route::delete('{item}/delete', [ItemController::class, 'destroy'])->name('item.delete');
+        });
         Route::prefix('category')->group(function () {
             Route::get('', [ProductCategoryController::class, 'index'])->name('product.category.index');
             Route::post('', [ProductCategoryController::class, 'store'])->name('product.category.store');

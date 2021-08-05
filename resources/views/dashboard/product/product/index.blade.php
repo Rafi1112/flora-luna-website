@@ -12,11 +12,11 @@
                 <div class="card-toolbar">
                     <ul class="nav nav-pills nav-pills-sm nav-dark-75">
                         <li class="nav-item">
-                            <div class="input-icon">
+                            <div class="input-group">
                                 <input type="text" class="form-control form-control-sm" placeholder="Search products..." id="kt_datatable_search_query">
-                                <span>
-                                    <i class="flaticon2-search-1 text-muted"></i>
-                                </span>
+                                <div class="input-group-append">
+                                    <button class="btn btn-primary btn-sm" type="button">Go!</button>
+                                </div>
                             </div>
                         </li>
                         <li class="nav-item">
@@ -43,7 +43,7 @@
                         <tbody>
                             @forelse($products as $index => $product)
                                 <tr>
-                                    <th scope="row">{{ $index + 1 }}</th>
+                                    <th scope="row">{{ $products->firstItem() + $index }}</th>
                                     <td>{{ $product->name }}</td>
                                     <td>
                                         <div class="d-flex align-items-center">
@@ -85,15 +85,23 @@
                                                         </a>
                                                     </li>
                                                     <li class="navi-item">
-                                                        <a href="#" onclick="document.getElementById('delete').submit();" class="navi-link confirm-delete" data-name="{{ $product->name }}">
+                                                        <a href="#" class="navi-link">
                                                             <form action="{{ route('product.delete', $product) }}" method="post" id="delete">
                                                                 @csrf
                                                                 @method('DELETE')
                                                                 <span class="navi-icon">
                                                                     <i class="far fa-trash-alt mr-2"></i>
                                                                 </span>
-                                                                <span class="navi-text">Delete</span>
+                                                                <span class="navi-text confirm-delete" data-name="{{ $product->name }}">Delete</span>
                                                             </form>
+                                                        </a>
+                                                    </li>
+                                                    <li class="navi-item">
+                                                        <a href="#" class="navi-link">
+                                                            <span class="navi-icon">
+                                                                <i class="fas fa-plus"></i>
+                                                            </span>
+                                                            <span class="navi-text">Add Item</span>
                                                         </a>
                                                     </li>
                                                 </ul>

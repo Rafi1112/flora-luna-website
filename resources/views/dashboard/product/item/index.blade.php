@@ -44,7 +44,7 @@
                         <tbody>
                         @forelse($items as $index => $item)
                             <tr>
-                                <th scope="row">{{ $index + 1 }}</th>
+                                <th scope="row">{{ $items->firstItem() + $index }}</th>
                                 <td>{{ $item->name }}</td>
                                 <td>
                                     <div class="d-flex align-items-center">
