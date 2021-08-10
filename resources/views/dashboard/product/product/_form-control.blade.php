@@ -120,4 +120,5 @@
         </div>
     </div>
     <button type="submit" class="btn btn-primary mr-2">{{ $button ?? 'Update' }}</button>
+    <a href="{{ url()->previous() }}" class="btn btn-info mr-2">Back</a>
 </div>

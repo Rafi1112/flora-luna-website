@@ -77,6 +77,14 @@
                                             <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right" style="">
                                                 <ul class="navi flex-column navi-hover py-2">
                                                     <li class="navi-item">
+                                                        <a href="{{ route('product.detail', $product) }}" class="navi-link">
+                                                            <span class="navi-icon">
+                                                                <i class="far fa-eye"></i>
+                                                            </span>
+                                                            <span class="navi-text">Detail</span>
+                                                        </a>
+                                                    </li>
+                                                    <li class="navi-item">
                                                         <a href="{{ route('product.edit', $product) }}" class="navi-link">
                                                             <span class="navi-icon">
                                                                 <i class="far fa-edit"></i>
@@ -86,7 +94,7 @@
                                                     </li>
                                                     <li class="navi-item">
                                                         <a href="#" class="navi-link">
-                                                            <form action="{{ route('product.delete', $product) }}" method="post" id="delete">
+                                                            <form action="{{ route('product.delete', $product) }}" method="post">
                                                                 @csrf
                                                                 @method('DELETE')
                                                                 <span class="navi-icon">
@@ -97,7 +105,7 @@
                                                         </a>
                                                     </li>
                                                     <li class="navi-item">
-                                                        <a href="#" class="navi-link">
+                                                        <a href="{{ route('add.product.item', $product) }}" class="navi-link">
                                                             <span class="navi-icon">
                                                                 <i class="fas fa-plus"></i>
                                                             </span>

@@ -20,6 +20,9 @@
                             </div>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link py-2 px-4 active" href="{{ route('product.index') }}"><i class="far fa-list-alt text-white mr-2"></i>Product List</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link py-2 px-4 active" href="{{ route('item.create') }}"><i class="fas fa-plus text-white mr-2"></i>New Item</a>
                         </li>
                     </ul>

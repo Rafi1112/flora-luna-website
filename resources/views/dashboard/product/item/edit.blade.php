@@ -11,6 +11,9 @@
                 <div class="card-toolbar">
                     <ul class="nav nav-pills nav-pills-sm nav-dark-75">
                         <li class="nav-item">
+                            <a class="nav-link py-2 px-4 active" href="{{ route('product.detail', $item->product) }}"><i class="far fa-eye text-white mr-2"></i>Product Detail</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link py-2 px-4 active" href="{{ route('item.index') }}"><i class="far fa-list-alt text-white mr-2"></i>Items List</a>
                         </li>
                     </ul>

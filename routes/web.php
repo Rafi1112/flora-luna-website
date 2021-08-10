@@ -26,6 +26,7 @@ Route::prefix('itemshop')->group(function () {
     Route::get('featured', [StoreController::class, 'index'])->name('store');
     Route::get('', [StoreController::class, 'index'])->name('store');
     Route::get('/{category:url}', [StoreController::class, 'showByCategory'])->name('store.category');
+    Route::get('view/{product}', [StoreController::class, 'showProduct'])->name('store.detail');
 });
 
 Route::prefix('p')->middleware(['auth', 'role:Game Master|Moderator'])->group(function () {
@@ -54,6 +55,9 @@ Route::prefix('p')->middleware(['auth', 'role:Game Master|Moderator'])->group(fu
         Route::get('{product:slug}/edit', [ProductController::class, 'edit'])->name('product.edit');
         Route::put('{product:slug}/edit', [ProductController::class, 'update']);
         Route::delete('{product:slug}/delete', [ProductController::class, 'destroy'])->name('product.delete');
+        Route::get('{product:slug}/detail', [ProductController::class, 'detail'])->name('product.detail');
+        Route::get('{product:slug}/add-item', [ItemController::class, 'addProductItem'])->name('add.product.item');
+        Route::post('{product:slug}/add-item', [ItemController::class, 'storeProductItem']);
 
         Route::prefix('item')->group(function () {
             Route::get('', [ItemController::class, 'index'])->name('item.index');

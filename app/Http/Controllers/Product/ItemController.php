@@ -100,7 +100,7 @@ class ItemController extends Controller
             'is_published' => $request->is_published ? 1 : 0,
         ]);
 
-        return redirect()->route('item.index')->with("success", "Item has been updated.");
+        return back()->with("success", "Item has been updated.");
     }
 
     public function destroy(Item $item)
@@ -108,6 +108,41 @@ class ItemController extends Controller
         Storage::delete($item->icon);
         $item->delete();
         return redirect()->back()->with("success", "Item has been deleted.");
+    }
+
+    public function addProductItem(Product $product)
+    {
+        return view('dashboard.product.product.add-item', compact('product'));
+    }
+
+    public function storeProductItem(Request $request, Product $product)
+    {
+        $request->validate([
+            'item_name' => 'required|max:25',
+            'item_stock' => 'required|integer|min:1',
+            'item_price' => 'required|integer|min:1',
+            'item_description' => 'max:255',
+            'item_option' => 'max:255',
+            'item_icon' => 'required|image|mimes:png,jpg,jpeg|max:2048'
+        ]);
+
+        $slug = Str::slug($request->item_name);
+        $icon = $request->file('item_icon');
+        $iconPath = $this->assignItemIcon($icon, $slug);
+
+        $product->items()->create([
+            'name' => $request->item_name,
+            'slug' => $slug,
+            'stock' => $request->item_stock,
+            'price' => $request->item_price,
+            'description' => $request->item_description,
+            'option' => $request->item_option,
+            'icon' => $iconPath,
+            'is_limited' => $request->is_limited ? 1 : 0,
+            'is_published' => $request->is_published ? 1 : 0,
+        ]);
+
+        return redirect()->back()->with("success", "Success added item to $product->name");
     }
 
     public function assignItemIcon($icon, $slug)

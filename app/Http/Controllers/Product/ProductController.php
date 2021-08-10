@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Product;
 
 use App\Http\Controllers\Controller;
+use App\Models\Product\Item;
 use App\Models\Product\Product;
 use App\Models\Product\ProductCategory;
 use App\Models\Product\ProductLabel;
@@ -125,10 +126,19 @@ class ProductController extends Controller
 
     public function destroy(Product $product)
     {
-        Storage::delete($product->half_image);
-        Storage::delete($product->full_image);
-        $product->delete();
-        return redirect()->back()->with("success", "Product has been deleted.");
+        if ($product->items()->exists()) {
+            return redirect()->back()->with("error", "The action is unauthorized. This product has related to items.");
+        } else {
+            Storage::delete($product->half_image);
+            Storage::delete($product->full_image);
+            $product->delete();
+            return redirect()->back()->with("success", "Product has been deleted.");
+        }
+    }
+
+    public function detail(Product $product)
+    {
+        return view('dashboard.product.product.detail', compact('product'));
     }
 
     public function assignImage($type, $image, $slug)
