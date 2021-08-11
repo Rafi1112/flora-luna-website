@@ -27,6 +27,7 @@ Route::prefix('itemshop')->group(function () {
     Route::get('', [StoreController::class, 'index'])->name('store');
     Route::get('/{category:url}', [StoreController::class, 'showByCategory'])->name('store.category');
     Route::get('view/{product}', [StoreController::class, 'showProduct'])->name('store.detail');
+    Route::post('item/purchase', [StoreController::class, 'purchaseItem'])->middleware('auth')->name('item.purchase');
 });
 
 Route::prefix('p')->middleware(['auth', 'role:Game Master|Moderator'])->group(function () {

@@ -1,6 +1,6 @@
 <ul class="nav nav-tabs nav-bold nav-tabs-line nav-tabs-line-3x justify-content-center">
     <li class="nav-item mr-3">
-        <a class="nav-link {{ Route::currentRouteName() === 'store' ? 'active' : '' }}" href="featured">
+        <a class="nav-link {{ Route::currentRouteName() === 'store' ? 'active' : '' }}" href="{{ url('itemshop/featured') }}">
             <div class="d-block text-center">
                 <div>
                     <img src="{{ asset('assets/media/im-category-featured.png') }}"
