@@ -8,6 +8,7 @@ use App\Models\Product\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Yajra\DataTables\DataTables;
 
 class ItemController extends Controller
 {
@@ -17,6 +18,45 @@ class ItemController extends Controller
                 ->latest()
                 ->paginate(16);
         return view('dashboard.product.item.index', compact('items'));
+    }
+
+    public function table()
+    {
+        $items = Item::with('product:id,name,slug')
+            ->latest()
+            ->get();
+
+        return DataTables::of($items)
+            ->editColumn('price', function ($item) {
+                return '<div class="d-flex align-items-center">
+                            '.$item->price.'
+                            <img src="'.asset('assets/media/gem-coin.png').'" alt="gem" class="ml-1">
+                        </div>';
+            })
+            ->editColumn('icon', function ($item) {
+                return '<span data-theme="dark" data-html="true"
+                               data-toggle="tooltip" data-placement="bottom" title="'.html_entity_decode($item->option).'">
+                            <img src="'.$item->itemIcon.'" alt="icon" width="30px">
+                        </span>';
+            })
+            ->editColumn('action', function ($item) {
+                $editItemUrl = route('item.edit', $item);
+                $deleteItemUrl = route('item.delete', $item);
+                return '
+                     <div class="row">
+                        <a href="'.$editItemUrl.'" class="btn btn-sm btn-clean btn-icon" title="Edit Item">
+                            <i class="la la-edit"></i>
+                        </a>
+                        <button class="btn btn-sm btn-clean btn-icon btn-delete"
+                             data-remote="'.$deleteItemUrl.'" data-name="'.$item->name.'"
+                             title="Delete">
+                            <i class="la la-trash"></i>
+                        </button>
+                     </div>
+                    ';
+            })
+            ->rawColumns(['price', 'icon' , 'action'])
+            ->make();
     }
 
     public function create()

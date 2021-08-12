@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\Product;
 
 use App\Http\Controllers\Controller;
-use App\Models\Product\Item;
 use App\Models\Product\Product;
 use App\Models\Product\ProductCategory;
 use App\Models\Product\ProductLabel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Yajra\DataTables\DataTables;
 
 class ProductController extends Controller
 {
@@ -19,6 +19,58 @@ class ProductController extends Controller
             ->latest()
             ->paginate(16);
         return view('dashboard.product.product.index', compact('products'));
+    }
+
+    public function table()
+    {
+        $products = Product::with(['label:id,image', 'category:id,name'])
+                    ->latest()
+                    ->get();
+        return DataTables::of($products)
+            ->editColumn('price', function ($product) {
+                return '<div class="d-flex align-items-center">
+                            '.$product->price.'
+                            <img src="'.asset('assets/media/gem-coin.png').'" alt="gem" class="ml-1">
+                        </div>';
+            })
+            ->editColumn('label', function ($product) {
+                if ($product->product_label_id){
+                    return '<img src="'.$product->label->labelImage.'" width="30px">';
+                } else {
+                    return '<div class="label label-info label-sm label-inline font-weight-bold text-white">NULL</div>';
+                }
+            })
+            ->editColumn('action', function ($product) {
+                $editProductUrl = route('product.edit', $product);
+                $deleteProductUrl = route('product.delete', $product);
+                $detailProductUrl = route('product.detail', $product);
+                $addProductItemUrl = route('add.product.item', $product);
+                return '
+                     <div class="row">
+                        <div class="dropdown dropdown-inline">
+                            <a href="javascript:;" class="btn btn-sm btn-clean btn-icon" data-toggle="dropdown">
+                                <i class="la la-cog"></i>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
+                                <ul class="nav nav-hoverable flex-column">
+                                    <li class="nav-item"><a class="nav-link" href="'.$detailProductUrl.'"><i class="nav-icon far fa-eye"></i><span class="nav-text">Details</span></a></li>
+                                    <li class="nav-item"><a class="nav-link" href="'.$addProductItemUrl.'"><i class="nav-icon fas fa-plus"></i><span class="nav-text">Add Items</span></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <a href="'.$editProductUrl.'" class="btn btn-sm btn-clean btn-icon" title="Edit Product">
+                            <i class="la la-edit"></i>
+                        </a>
+                        <button class="btn btn-sm btn-clean btn-icon btn-delete"
+                             data-remote="'.$deleteProductUrl.'" data-name="'.$product->name.'"
+                             title="Delete">
+                            <i class="la la-trash"></i>
+                        </button>
+                     </div>
+                    ';
+            })
+            ->rawColumns(['price', 'label', 'action'])
+            ->make();
     }
 
     public function create()

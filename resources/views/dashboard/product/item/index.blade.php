@@ -1,5 +1,7 @@
 @extends('layouts.app')
-
+@section('styles')
+    <link href="{{ asset('assets/plugins/custom/datatables/datatables.bundle.css') }}" rel="stylesheet" type="text/css" />
+@endsection
 @section('content')
 
     <div class="flex-row-fluid col-xl-8">
@@ -12,14 +14,6 @@
                 <div class="card-toolbar">
                     <ul class="nav nav-pills nav-pills-sm nav-dark-75">
                         <li class="nav-item">
-                            <div class="input-group">
-                                <input type="text" class="form-control form-control-sm" placeholder="Search items..." id="kt_datatable_search_query">
-                                <div class="input-group-append">
-                                    <button class="btn btn-primary btn-sm" type="button">Go!</button>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="nav-item">
                             <a class="nav-link py-2 px-4 active" href="{{ route('product.index') }}"><i class="far fa-list-alt text-white mr-2"></i>Product List</a>
                         </li>
                         <li class="nav-item">
@@ -30,91 +24,21 @@
             </div>
             <div class="card-body">
                 <div class="table-responsive-lg">
-                    <table class="table table-vertical-center">
+                    <table class="table table-bordered table-hover" id="items" style="margin-top: 13px !important">
                         <thead>
                         <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Itemname</th>
-                            <th scope="col">Price</th>
-                            <th scope="col">Product Parent</th>
-                            <th scope="col">Stock</th>
-                            <th scope="col">Icon</th>
-                            <th scope="col">Limited</th>
-                            <th scope="col">Published</th>
-                            <th scope="col" class="text-right">Action</th>
+                            <th>#</th>
+                            <th>Itemname</th>
+                            <th>Price</th>
+                            <th>Product Parent</th>
+                            <th>Stock</th>
+                            <th>Icon</th>
+                            <th>Limited</th>
+                            <th>Published</th>
+                            <th>Action</th>
                         </tr>
                         </thead>
-                        <tbody>
-                        @forelse($items as $index => $item)
-                            <tr>
-                                <th scope="row">{{ $items->firstItem() + $index }}</th>
-                                <td>{{ $item->name }}</td>
-                                <td>
-                                    <div class="d-flex align-items-center">
-                                        {{ $item->price }}
-                                        <img src="{{ asset('assets/media/gem-coin.png') }}" alt="gem" class="ml-1">
-                                    </div>
-                                </td>
-                                <td>{{ $item->product->name }}</td>
-                                <td>{{ $item->stock }}</td>
-                                <td>
-                                    <span data-theme="dark" data-html="true"
-                                           data-toggle="tooltip" data-placement="bottom" title="{!! nl2br($item->option) !!}">
-                                        <img src="{{ $item->itemIcon }}" alt="icon" width="30px">
-                                    </span>
-                                </td>
-                                <td>
-                                    <div class="label {{ $item->is_limited ? 'label-success' : 'label-danger' }} label-sm label-inline font-weight-bold text-white">
-                                        {{ $item->is_limited ? 'TRUE' : 'FALSE' }}
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="label {{ $item->is_published ? 'label-success' : 'label-danger' }} label-sm label-inline font-weight-bold text-white">
-                                        {{ $item->is_published ? 'TRUE' : 'FALSE' }}
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="dropdown">
-                                        <button type="button" class="btn btn-light-primary btn-sm font-weight-bolder dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            Action
-                                        </button>
-                                        <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right" style="">
-                                            <ul class="navi flex-column navi-hover py-2">
-                                                <li class="navi-item">
-                                                    <a href="{{ route('item.edit', $item) }}" class="navi-link">
-                                                            <span class="navi-icon">
-                                                                <i class="far fa-edit"></i>
-                                                            </span>
-                                                        <span class="navi-text">Edit</span>
-                                                    </a>
-                                                </li>
-                                                <li class="navi-item">
-                                                    <a href="#" class="navi-link">
-                                                        <form action="{{ route('item.delete', $item) }}" method="post" id="delete">
-                                                            @csrf
-                                                            @method('DELETE')
-                                                            <span class="navi-icon">
-                                                                    <i class="far fa-trash-alt mr-2"></i>
-                                                                </span>
-                                                            <span class="navi-text confirm-delete" data-name="{{ $item->name }}">Delete</span>
-                                                        </form>
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                        @empty
-                            <tr>
-                                <td colspan="9" class="text-center">No records found.</td>
-                            </tr>
-                        @endforelse
-                        </tbody>
                     </table>
-                </div>
-                <div class="d-flex justify-content-center">
-                    {{ $items->onEachSide(1)->links('pagination::bootstrap-4') }}
                 </div>
             </div>
         </div>
@@ -123,5 +47,73 @@
 @endsection
 
 @push('scripts')
-    <script src="{{ asset('assets/js/alert-delete.js') }}"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('#items').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: "{{ route('item.list.table') }}",
+                columns: [
+                    {data: null, "orderable": false,
+                        render: function (data, type, row, meta) {
+                            return meta.row + meta.settings._iDisplayStart + 1;
+                        }
+                    },
+                    {data: 'name', name: 'name'},
+                    {data: 'price', name: 'price'},
+                    {data: 'product.name', name: 'product.name'},
+                    {data: 'stock', name: 'stock'},
+                    {data: 'icon', name: 'icon', orderable: false,},
+                    {data: 'is_limited', name: 'is_limited'},
+                    {data: 'is_published', name: 'is_published'},
+                    {data: 'action', name: 'action', responsivePriority: -1},
+                ],
+                columnDefs: [
+                    {
+                        width: '90px',
+                        targets: -1,
+                        title: 'Actions',
+                        orderable: false,
+                    },
+                    {
+                        targets: [-3, -2],
+                        width: '10px',
+                        render: function(data) {
+                            var status = {
+                                true: {'title': 'TRUE', 'class': 'label-success'},
+                                false: {'title': 'FALSE', 'class': 'label-danger'},
+                            };
+                            if (typeof status[data] === 'undefined') {
+                                return data;
+                            }
+                            return '<span class="label ' + status[data].class + ' label-inline label-sm font-weight-bold text-white">' + status[data].title + '</span>';
+                        },
+                    },
+                ]
+            });
+        });
+        $('#items').on('click', '.btn-delete[data-remote]', function (e) {
+            var url = $(this).data("remote");
+            var name = $(this).data("name");
+            Swal.fire({
+                title: `Are you sure want delete "${name}"?`,
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, delete it!',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: url,
+                        type: 'DELETE',
+                        dataType: 'json',
+                        data: {method: 'DELETE', _token:"{{ csrf_token() }}", submit: true}
+                    }).always(function (data) {
+                        $('#items').DataTable().draw(false);
+                    });
+                }
+            });
+        });
+    </script>
+    <script src="{{ asset('assets/plugins/custom/datatables/datatables.bundle.js') }}"></script>
 @endpush

@@ -1,5 +1,7 @@
 @extends('layouts.app')
-
+@section('styles')
+    <link href="{{ asset('assets/plugins/custom/datatables/datatables.bundle.css') }}" rel="stylesheet" type="text/css" />
+@endsection
 @section('content')
 
     <div class="flex-row-fluid col-xl-8">
@@ -12,12 +14,7 @@
                 <div class="card-toolbar">
                     <ul class="nav nav-pills nav-pills-sm nav-dark-75">
                         <li class="nav-item">
-                            <div class="input-group">
-                                <input type="text" class="form-control form-control-sm" placeholder="Search products..." id="kt_datatable_search_query">
-                                <div class="input-group-append">
-                                    <button class="btn btn-primary btn-sm" type="button">Go!</button>
-                                </div>
-                            </div>
+                            <a class="nav-link py-2 px-4 active" href="{{ route('item.index') }}"><i class="far fa-list-alt text-white mr-2"></i>Items List</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link py-2 px-4 active" href="{{ route('product.create') }}"><i class="fas fa-plus text-white mr-2"></i>New Product</a>
@@ -27,106 +24,20 @@
             </div>
             <div class="card-body">
                 <div class="table-responsive-lg">
-                    <table class="table table-vertical-center">
+                    <table class="table table-bordered table-hover" id="products" style="margin-top: 13px !important">
                         <thead>
                         <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Name</th>
-                            <th scope="col">Price</th>
-                            <th scope="col">Category</th>
-                            <th scope="col">Label</th>
-                            <th scope="col">Featured</th>
-                            <th scope="col">Published</th>
-                            <th scope="col" class="text-right">Action</th>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Price</th>
+                            <th>Category</th>
+                            <th>Label</th>
+                            <th>Featured</th>
+                            <th>Published</th>
+                            <th>Actions</th>
                         </tr>
                         </thead>
-                        <tbody>
-                            @forelse($products as $index => $product)
-                                <tr>
-                                    <th scope="row">{{ $products->firstItem() + $index }}</th>
-                                    <td>{{ $product->name }}</td>
-                                    <td>
-                                        <div class="d-flex align-items-center">
-                                            {{ $product->price }}
-                                            <img src="{{ asset('assets/media/gem-coin.png') }}" alt="gem" class="ml-1">
-                                        </div>
-                                    </td>
-                                    <td>{{ $product->category->name }}</td>
-                                    <td>
-                                        @if($product->label)
-                                            <img src="{{ $product->label->labelImage }}" width="30px">
-                                        @else
-                                            <div class="label label-info label-sm label-inline font-weight-bold text-white">NULL</div>
-                                        @endif
-                                    </td>
-                                    <td>
-                                        <div class="label {{ $product->is_featured ? 'label-success' : 'label-danger' }} label-sm label-inline font-weight-bold text-white">
-                                            {{ $product->is_featured ? 'TRUE' : 'FALSE' }}
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="label {{ $product->is_published ? 'label-success' : 'label-danger' }} label-sm label-inline font-weight-bold text-white">
-                                            {{ $product->is_published ? 'TRUE' : 'FALSE' }}
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="dropdown">
-                                            <button type="button" class="btn btn-light-primary btn-sm font-weight-bolder dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-												Action
-                                            </button>
-                                            <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right" style="">
-                                                <ul class="navi flex-column navi-hover py-2">
-                                                    <li class="navi-item">
-                                                        <a href="{{ route('product.detail', $product) }}" class="navi-link">
-                                                            <span class="navi-icon">
-                                                                <i class="far fa-eye"></i>
-                                                            </span>
-                                                            <span class="navi-text">Detail</span>
-                                                        </a>
-                                                    </li>
-                                                    <li class="navi-item">
-                                                        <a href="{{ route('product.edit', $product) }}" class="navi-link">
-                                                            <span class="navi-icon">
-                                                                <i class="far fa-edit"></i>
-                                                            </span>
-                                                            <span class="navi-text">Edit</span>
-                                                        </a>
-                                                    </li>
-                                                    <li class="navi-item">
-                                                        <a href="#" class="navi-link">
-                                                            <form action="{{ route('product.delete', $product) }}" method="post">
-                                                                @csrf
-                                                                @method('DELETE')
-                                                                <span class="navi-icon">
-                                                                    <i class="far fa-trash-alt mr-2"></i>
-                                                                </span>
-                                                                <span class="navi-text confirm-delete" data-name="{{ $product->name }}">Delete</span>
-                                                            </form>
-                                                        </a>
-                                                    </li>
-                                                    <li class="navi-item">
-                                                        <a href="{{ route('add.product.item', $product) }}" class="navi-link">
-                                                            <span class="navi-icon">
-                                                                <i class="fas fa-plus"></i>
-                                                            </span>
-                                                            <span class="navi-text">Add Item</span>
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="8" class="text-center">No records found.</td>
-                                </tr>
-                            @endforelse
-                        </tbody>
                     </table>
-                </div>
-                <div class="d-flex justify-content-center">
-                    {{ $products->onEachSide(1)->links('pagination::bootstrap-4') }}
                 </div>
             </div>
         </div>
@@ -135,5 +46,72 @@
 @endsection
 
 @push('scripts')
-    <script src="{{ asset('assets/js/alert-delete.js') }}"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('#products').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: "{{ route('product.list.table') }}",
+                columns: [
+                    {data: null, "orderable": false,
+                        render: function (data, type, row, meta) {
+                            return meta.row + meta.settings._iDisplayStart + 1;
+                        }
+                    },
+                    {data: 'name', name: 'name'},
+                    {data: 'price', name: 'price'},
+                    {data: 'category.name', name: 'category.name'},
+                    {data: 'label', name: 'product_label_id'},
+                    {data: 'is_featured', name: 'is_featured'},
+                    {data: 'is_published', name: 'is_published'},
+                    {data: 'action', name: 'action', responsivePriority: -1},
+                ],
+                columnDefs: [
+                    {
+                        width: '90px',
+                        targets: -1,
+                        title: 'Actions',
+                        orderable: false,
+                    },
+                    {
+                        targets: [-3, -2],
+                        width: '10px',
+                        render: function(data) {
+                            var status = {
+                                true: {'title': 'TRUE', 'class': 'label-success'},
+                                false: {'title': 'FALSE', 'class': 'label-danger'},
+                            };
+                            if (typeof status[data] === 'undefined') {
+                                return data;
+                            }
+                            return '<span class="label ' + status[data].class + ' label-inline label-sm font-weight-bold text-white">' + status[data].title + '</span>';
+                        },
+                    },
+                ]
+            });
+        });
+        $('#products').on('click', '.btn-delete[data-remote]', function (e) {
+            var url = $(this).data("remote");
+            var name = $(this).data("name");
+            Swal.fire({
+                title: `Are you sure want delete "${name}"?`,
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, delete it!',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: url,
+                        type: 'DELETE',
+                        dataType: 'json',
+                        data: {method: 'DELETE', _token:"{{ csrf_token() }}", submit: true}
+                    }).always(function (data) {
+                        $('#products').DataTable().draw(false);
+                    });
+                }
+            });
+        });
+    </script>
+    <script src="{{ asset('assets/plugins/custom/datatables/datatables.bundle.js') }}"></script>
 @endpush

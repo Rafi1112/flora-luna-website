@@ -51,6 +51,7 @@ Route::prefix('p')->middleware(['auth', 'role:Game Master|Moderator'])->group(fu
     Route::prefix('product')->middleware(['permission:create product|create item'])->group(function () {
 
         Route::get('list', [ProductController::class, 'index'])->name('product.index');
+        Route::get('list/table', [ProductController::class, 'table'])->name('product.list.table');
         Route::get('create', [ProductController::class, 'create'])->name('product.create');
         Route::post('create', [ProductController::class, 'store']);
         Route::get('{product:slug}/edit', [ProductController::class, 'edit'])->name('product.edit');
@@ -62,6 +63,7 @@ Route::prefix('p')->middleware(['auth', 'role:Game Master|Moderator'])->group(fu
 
         Route::prefix('item')->group(function () {
             Route::get('', [ItemController::class, 'index'])->name('item.index');
+            Route::get('table', [ItemController::class, 'table'])->name('item.list.table');
             Route::get('create', [ItemController::class, 'create'])->name('item.create');
             Route::post('create', [ItemController::class, 'store']);
             Route::get('{item}/edit', [ItemController::class, 'edit'])->name('item.edit');
