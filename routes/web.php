@@ -2,7 +2,8 @@
 
 use App\Http\Controllers\Account\AccountController;
 use App\Http\Controllers\Article\{ArticleController, ArticleCategoryController};
-use App\Http\Controllers\{IndexController,
+use App\Http\Controllers\{Gems\RechargeUserGemsController,
+    IndexController,
     Product\ItemController,
     Product\ProductCategoryController,
     Product\ProductController,
@@ -31,6 +32,10 @@ Route::prefix('itemshop')->group(function () {
 });
 
 Route::prefix('p')->middleware(['auth', 'role:Game Master|Moderator'])->group(function () {
+    Route::prefix('gems')->middleware(['permission:recharge gems'])->group(function () {
+        Route::get('recharge', [RechargeUserGemsController::class, 'index'])->name('recharge.gems');
+        Route::post('recharge', [RechargeUserGemsController::class, 'recharge']);
+    });
     Route::prefix('announcement')->middleware(['permission:create post'])->group(function () {
         Route::prefix('category')->group(function () {
             Route::get('', [ArticleCategoryController::class, 'index'])->name('article.category');
@@ -47,7 +52,6 @@ Route::prefix('p')->middleware(['auth', 'role:Game Master|Moderator'])->group(fu
         Route::delete('{article:slug}', [ArticleController::class, 'destroy'])->name('article.delete');
         Route::post('/image-content/delete', [ArticleController::class, 'deleteImageContent'])->name('delete.content.image');
     });
-
     Route::prefix('product')->middleware(['permission:create product|create item'])->group(function () {
 
         Route::get('list', [ProductController::class, 'index'])->name('product.index');

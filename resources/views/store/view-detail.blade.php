@@ -110,7 +110,8 @@
                                                     </label>
                                                 @endforelse
                                                 @if($product->items()->exists())
-                                                    <button type="submit" class="btn btn-info btn-block font-weight-bolder mt-2">Buy</button>
+                                                    <button type="submit" class="btn btn-info btn-block font-weight-bolder mt-2"
+                                                            onclick="this.form.submit(); this.disabled=true;">Buy</button>
                                                 @endif
                                                 <a href="{{ url()->previous() }}" class="btn btn-light btn-block font-weight-bolder">Back</a>
                                             </div>

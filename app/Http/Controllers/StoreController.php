@@ -49,22 +49,18 @@ class StoreController extends Controller
         if ( $item->stock < 1 ) return redirect()->back()->with("error", "Unable to complete the purchased item. Item out of stock!");
 
         if ( !($userBalance < $item->price) ) {
-            DB::beginTransaction();
-            try {
+            DB::transaction(function () use ($userBalance, $item) {
                 Auth::user()->update([
                     'balance' => $userBalance - $item->price
                 ]);
                 $item->update([
                     'stock' => $item->stock - 1
                 ]);
-                DB::commit();
-                return redirect()->back()->with("success", "Successfully purchased item.");
-            } catch (\Exception $e) {
-                DB::rollBack();
-                return redirect()->back()->with("error", "Something went wrong.");
-            }
+            }, 3);
         } else {
             return redirect()->back()->with("error", "Unable to complete the purchased item. Not enough balance.");
         }
+
+        return redirect()->back()->with("success", "Successfully purchased item.");
     }
 }
