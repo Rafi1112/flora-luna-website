@@ -144,8 +144,8 @@
                                     </ul>
                                 </div>
                             </li>
-                            <li class="menu-item" aria-haspopup="true">
-                                <a href="#" class="menu-link">
+                            <li class="menu-item {{ Request::segment(2) === 'user' ? 'menu-item-open menu-item-here' : '' }}" aria-haspopup="true">
+                                <a href="{{ route('user.list') }}" class="menu-link">
                                     <div class="menu-icon"><i class="fas fa-user-friends"></i></div>
                                     <span class="menu-text">List Players</span>
                                 </a>

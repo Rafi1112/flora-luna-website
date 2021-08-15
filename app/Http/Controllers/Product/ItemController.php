@@ -14,9 +14,7 @@ class ItemController extends Controller
 {
     public function index()
     {
-        $items = Item::with('product:id,name,slug')
-                ->latest()
-                ->paginate(16);
+        $items = Item::count();
         return view('dashboard.product.item.index', compact('items'));
     }
 

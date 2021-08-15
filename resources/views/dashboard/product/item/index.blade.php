@@ -9,7 +9,7 @@
             <div class="card-header">
                 <h3 class="card-title align-items-start flex-column mt-5">
                     <span class="card-label font-weight-bolder text-dark mb-1">Items</span>
-                    <span class="text-muted mt-2 font-weight-bold font-size-sm">{{ $items->total() }} Total items found.</span>
+                    <span class="text-muted mt-2 font-weight-bold font-size-sm">{{ $items }} Total items found.</span>
                 </h3>
                 <div class="card-toolbar">
                     <ul class="nav nav-pills nav-pills-sm nav-dark-75">

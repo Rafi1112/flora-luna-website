@@ -8,7 +8,8 @@ use App\Http\Controllers\{Gems\RechargeUserGemsController,
     Product\ProductCategoryController,
     Product\ProductController,
     Product\ProductLabelController,
-    StoreController};
+    StoreController,
+    UserController};
 use App\Http\Controllers\RolePermission\{RoleController,
     PermissionController,
     RolePermissionController,
@@ -32,6 +33,8 @@ Route::prefix('itemshop')->group(function () {
 });
 
 Route::prefix('p')->middleware(['auth', 'role:Game Master|Moderator'])->group(function () {
+    Route::get('user-list', [UserController::class, 'index'])->name('user.list');
+    Route::get('user-table', [UserController::class, 'table'])->name('user.table');
     Route::prefix('gems')->middleware(['permission:recharge gems'])->group(function () {
         Route::get('recharge', [RechargeUserGemsController::class, 'index'])->name('recharge.gems');
         Route::post('recharge', [RechargeUserGemsController::class, 'recharge']);

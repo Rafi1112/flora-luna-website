@@ -15,9 +15,7 @@ class ProductController extends Controller
 {
     public function index()
     {
-        $products = Product::with(['label:id,image', 'category:id,name,slug,url,icon'])
-            ->latest()
-            ->paginate(16);
+        $products = Product::count();
         return view('dashboard.product.product.index', compact('products'));
     }
 
