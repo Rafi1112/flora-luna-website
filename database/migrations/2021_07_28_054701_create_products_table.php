@@ -19,7 +19,7 @@ class CreateProductsTable extends Migration
             $table->foreignId('product_label_id')->nullable();
             $table->string('name');
             $table->string('slug');
-            $table->double('price');
+            $table->unsignedDouble('price');
             $table->string('description')->nullable();
             $table->text('option')->nullable();
             $table->string('half_image')->nullable();

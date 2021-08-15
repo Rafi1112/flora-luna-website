@@ -18,7 +18,7 @@ class CreateItemsTable extends Migration
             $table->foreignId('product_id');
             $table->string('name');
             $table->string('slug');
-            $table->double('price');
+            $table->unsignedDouble('price');
             $table->integer('stock')->nullable();
             $table->string('description')->nullable();
             $table->text('option')->nullable();
