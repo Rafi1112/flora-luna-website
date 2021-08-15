@@ -2,6 +2,7 @@
 
 namespace App\Models\Product;
 
+use App\Models\Order\PurchasedItem;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -19,5 +20,10 @@ class Item extends Model
     public function getItemIconAttribute()
     {
         return "/storage/" . $this->icon;
+    }
+
+    public function purchasedItems()
+    {
+        return $this->hasMany(PurchasedItem::class, 'item_id');
     }
 }

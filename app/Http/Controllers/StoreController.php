@@ -44,23 +44,20 @@ class StoreController extends Controller
         ]);
 
         $item = Item::findOrFail($request->item);
-        $userBalance = Auth::user()->balance;
+        $user = Auth::user();
 
-        if ( $item->stock < 1 ) return redirect()->back()->with("error", "Unable to complete the purchased item. Item out of stock!");
+        if ( $item->stock < 1 ) {
+            return redirect()->back()->with("error", "Unable to complete the purchased item. Item out of stock!");
+        }
 
-        if ( !($userBalance < $item->price) ) {
-            DB::transaction(function () use ($userBalance, $item) {
-                Auth::user()->update([
-                    'balance' => $userBalance - $item->price
-                ]);
-                $item->update([
-                    'stock' => $item->stock - 1
-                ]);
-            }, 3);
+        if ( !($user->balance < $item->price) ) {
+            DB::transaction(function () use ($user, $item) {
+                $user->purchasingItem($item);
+            });
         } else {
             return redirect()->back()->with("error", "Unable to complete the purchased item. Not enough balance.");
         }
 
-        return redirect()->back()->with("success", "Successfully purchased item.");
+        return redirect()->back()->with("success", "Thanks! Success purchasing the item.");
     }
 }

@@ -4,6 +4,7 @@ use App\Http\Controllers\Account\AccountController;
 use App\Http\Controllers\Article\{ArticleController, ArticleCategoryController};
 use App\Http\Controllers\{Gems\RechargeUserGemsController,
     IndexController,
+    Order\OrderListController,
     Product\ItemController,
     Product\ProductCategoryController,
     Product\ProductController,
@@ -33,6 +34,12 @@ Route::prefix('itemshop')->group(function () {
 });
 
 Route::prefix('p')->middleware(['auth', 'role:Game Master|Moderator'])->group(function () {
+    Route::prefix('orders')->group(function () {
+        Route::get('item', [OrderListController::class, 'listItemOrder'])
+            ->middleware('permission:list item order')->name('list.item.order');
+        Route::get('item/table', [OrderListController::class, 'listItemOrderTable'])
+            ->middleware('permission:list item order')->name('list.item.table');
+    });
     Route::get('user-list', [UserController::class, 'index'])->name('user.list');
     Route::get('user-table', [UserController::class, 'table'])->name('user.table');
     Route::prefix('gems')->middleware(['permission:recharge gems'])->group(function () {
