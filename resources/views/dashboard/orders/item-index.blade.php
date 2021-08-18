@@ -13,7 +13,7 @@
             </div>
             <div class="card-body">
                 <div class="table-responsive-lg">
-                    <table class="table table-bordered table-hover" id="purchased_items" style="margin-top: 13px !important">
+                    <table class="table table-separate table-head-custom table-checkable" id="purchased_items" style="margin-top: 13px !important">
                         <thead>
                         <tr>
                             <th>#</th>
