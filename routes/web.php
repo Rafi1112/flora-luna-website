@@ -2,7 +2,8 @@
 
 use App\Http\Controllers\Account\AccountController;
 use App\Http\Controllers\Article\{ArticleController, ArticleCategoryController};
-use App\Http\Controllers\{Gems\RechargeUserGemsController,
+use App\Http\Controllers\{Gems\GemsController,
+    Gems\RechargeUserGemsController,
     IndexController,
     Order\OrderListController,
     Product\ItemController,
@@ -42,9 +43,17 @@ Route::prefix('p')->middleware(['auth', 'role:Game Master|Moderator'])->group(fu
     });
     Route::get('user-list', [UserController::class, 'index'])->name('user.list');
     Route::get('user-table', [UserController::class, 'table'])->name('user.table');
-    Route::prefix('gems')->middleware(['permission:recharge gems'])->group(function () {
+    Route::prefix('gems')->middleware(['permission:recharge gems|edit gems price'])->group(function () {
         Route::get('recharge', [RechargeUserGemsController::class, 'index'])->name('recharge.gems');
         Route::post('recharge', [RechargeUserGemsController::class, 'recharge']);
+
+        Route::get('list', [GemsController::class, 'index'])->name('gems.index');
+        Route::get('list/table', [GemsController::class, 'table'])->name('gems.table');
+        Route::get('create', [GemsController::class, 'create'])->name('gems.create');
+        Route::post('create', [GemsController::class, 'store']);
+        Route::get('edit/{gem}', [GemsController::class, 'edit'])->name('gems.edit');
+        Route::put('edit/{gem}', [GemsController::class, 'update']);
+        Route::delete('delete/{gem}', [GemsController::class, 'destroy'])->name('gems.delete');
     });
     Route::prefix('announcement')->middleware(['permission:create post'])->group(function () {
         Route::prefix('category')->group(function () {
