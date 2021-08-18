@@ -109,7 +109,8 @@
                         dataType: 'json',
                         data: {method: 'DELETE', _token:"{{ csrf_token() }}", submit: true}
                     }).always(function (data) {
-                        $('#items').DataTable().draw(false);
+                        location.reload();
+                        // $('#items').DataTable().draw(false);
                     });
                 }
             });

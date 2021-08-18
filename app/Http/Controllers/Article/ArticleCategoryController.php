@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Article;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Article\ArticleCategoryRequest;
 use App\Models\Article\ArticleCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -16,13 +17,8 @@ class ArticleCategoryController extends Controller
         return view('dashboard.articles.category.index', compact('categories', 'category'));
     }
 
-    public function store(Request $request)
+    public function store(ArticleCategoryRequest $request)
     {
-        $request->validate([
-            'category_name' => 'required',
-            'category_description' => 'required',
-        ]);
-
         ArticleCategory::create([
             'name' => $request->category_name,
             'slug' => Str::slug($request->category_name),
@@ -37,13 +33,8 @@ class ArticleCategoryController extends Controller
         return view('dashboard.articles.category.edit', compact('category'));
     }
 
-    public function update(Request $request, ArticleCategory $category)
+    public function update(ArticleCategoryRequest $request, ArticleCategory $category)
     {
-        $request->validate([
-            'category_name' => 'required',
-            'category_description' => 'required',
-        ]);
-
         $category->update([
             'name' => $request->category_name,
             'description' => $request->category_description,
@@ -54,7 +45,6 @@ class ArticleCategoryController extends Controller
 
     public function destroy(ArticleCategory $category)
     {
-        $category->has('articles')->get();
         if ($category->articles()->exists()) {
             return redirect()->back()->with("error", "The action is denied. The category has relation to article.");
         } else {

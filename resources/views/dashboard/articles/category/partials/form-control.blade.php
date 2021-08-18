@@ -10,7 +10,7 @@
     <div class="form-group">
         <label for="category_description">Category Description <span class="text-danger">*</span></label>
         <textarea class="form-control" id="category_description" name="category_description" rows="5" placeholder="Enter description">{{ old('category_description') ?? $category->description }}</textarea>
-        @error('category_name')
+        @error('category_description')
             <div class="invalid-feedback">{{ $message }}</div>
         @enderror
     </div>

@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Gems;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\GemsRequest;
 use App\Models\Order\Gems;
-use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 
 class GemsController extends Controller

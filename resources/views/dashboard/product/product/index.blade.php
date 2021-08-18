@@ -107,7 +107,8 @@
                         dataType: 'json',
                         data: {method: 'DELETE', _token:"{{ csrf_token() }}", submit: true}
                     }).always(function (data) {
-                        $('#products').DataTable().draw(false);
+                        location.reload();
+                        // $('#products').DataTable().draw(false);
                     });
                 }
             });

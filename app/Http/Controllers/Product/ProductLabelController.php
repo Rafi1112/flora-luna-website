@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Product;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Product\ProductLabelRequest;
 use App\Models\Product\ProductLabel;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -17,14 +17,8 @@ class ProductLabelController extends Controller
         return view('dashboard.product.label.index', compact('labels', 'label'));
     }
 
-    public function store(Request $request)
+    public function store(ProductLabelRequest $request)
     {
-        $request->validate([
-            'label_name' => 'required',
-            'label_description' => 'required',
-            'label_image' => 'required|image|mimes:png,jpg,jpeg',
-        ]);
-
         $slug = Str::slug($request->label_name);
         $image = $request->file('label_image');
         $pathImage = $this->assignImageLabel($image, $slug);
@@ -44,14 +38,8 @@ class ProductLabelController extends Controller
         return view('dashboard.product.label.edit', compact('label'));
     }
 
-    public function update(Request $request, ProductLabel $label)
+    public function update(ProductLabelRequest $request, ProductLabel $label)
     {
-        $request->validate([
-            'label_name' => 'required',
-            'label_description' => 'required',
-            'label_image' => 'image|mimes:png,jpg,jpeg',
-        ]);
-
         $image = $request->file('label_image');
         if ($image) {
             $slug = $label->slug;
@@ -72,7 +60,6 @@ class ProductLabelController extends Controller
 
     public function destroy(ProductLabel $label)
     {
-        $label->has('products')->get();
         if ($label->products()->exists()) {
             return redirect()->back()->with("error", "The action is denied. The label has relation to products.");
         } else {

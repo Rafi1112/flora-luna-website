@@ -31,6 +31,7 @@ class StoreController extends Controller
 
     public function showProduct(Product $product)
     {
+        if (!$product->is_published) abort(404);
         $items = Item::where(['product_id' => $product->id, 'is_published' => 1])
                 ->orderBy('created_at')
                 ->get();

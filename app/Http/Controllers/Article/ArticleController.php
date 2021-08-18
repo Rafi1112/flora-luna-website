@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Article;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Article\ArticleRequest;
 use App\Models\Article\Article;
 use App\Models\Article\ArticleCategory;
 use Illuminate\Http\Request;
@@ -25,14 +26,8 @@ class ArticleController extends Controller
         return view('dashboard.articles.create', compact('article', 'categories'));
     }
 
-    public function store(Request $request)
+    public function store(ArticleRequest $request)
     {
-        $request->validate([
-            'article_title' => 'required|min:8',
-            'article_category' => 'required',
-            'article_content' => 'required'
-        ]);
-
         ArticleCategory::findOrFail($request->article_category);
 
         $articleContent = $request->article_content;
@@ -56,13 +51,8 @@ class ArticleController extends Controller
         return view('dashboard.articles.edit', compact('article', 'categories'));
     }
 
-    public function update(Request $request, Article $article)
+    public function update(ArticleRequest $request, Article $article)
     {
-        $request->validate([
-            'article_title' => 'required|min:8',
-            'article_category' => 'required',
-            'article_content' => 'required'
-        ]);
         ArticleCategory::findOrFail($request->article_category);
 
         $articleContent = $request->article_content;

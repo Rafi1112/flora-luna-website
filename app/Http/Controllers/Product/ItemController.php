@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Product;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Product\ItemRequest;
 use App\Models\Product\Item;
 use App\Models\Product\Product;
 use Illuminate\Http\Request;
@@ -64,18 +65,8 @@ class ItemController extends Controller
         return view('dashboard.product.item.create', compact('products', 'item'));
     }
 
-    public function store(Request $request)
+    public function store(ItemRequest $request)
     {
-        $request->validate([
-            'product_parent' => 'required',
-            'item_name' => 'required|max:25',
-            'item_stock' => 'required|integer|min:1',
-            'item_price' => 'required|integer|min:1',
-            'item_description' => 'max:255',
-            'item_option' => 'max:255',
-            'item_icon' => 'required|image|mimes:png,jpg,jpeg|max:2048'
-        ]);
-
         $productParent = Product::findOrFail($request->product_parent);
         $slug = Str::slug($request->item_name);
         $icon = $request->file('item_icon');
@@ -103,7 +94,7 @@ class ItemController extends Controller
         return view('dashboard.product.item.edit', compact('item', 'products'));
     }
 
-    public function update(Request $request, Item $item)
+    public function update(ItemRequest $request, Item $item)
     {
         $request->validate([
             'product_parent' => 'required',
@@ -143,9 +134,13 @@ class ItemController extends Controller
 
     public function destroy(Item $item)
     {
-        Storage::delete($item->icon);
-        $item->delete();
-        return redirect()->back()->with("success", "Item has been deleted.");
+        if ($item->purchasedItems()->exists()) {
+            return back()->with("error", "This Action is denied. Item has related to model.");
+        } else {
+            Storage::delete($item->icon);
+            $item->delete();
+            return redirect()->back()->with("success", "Item has been deleted.");
+        }
     }
 
     public function addProductItem(Product $product)

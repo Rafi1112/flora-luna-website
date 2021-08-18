@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Product;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Product\ProductRequest;
 use App\Models\Product\Product;
 use App\Models\Product\ProductCategory;
 use App\Models\Product\ProductLabel;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Yajra\DataTables\DataTables;
@@ -79,18 +79,8 @@ class ProductController extends Controller
         return view('dashboard.product.product.create', compact('product', 'categories', 'labels'));
     }
 
-    public function store(Request $request)
+    public function store(ProductRequest $request)
     {
-        $request->validate([
-            'product_name' => 'required|max:25',
-            'product_category' => 'required',
-            'product_label'=> 'required',
-            'product_price' => 'required|integer|min:1',
-            'product_description' => 'required|max:255',
-            'product_half_image' => 'required|image|mimes:png,jpg,jpeg|max:2048',
-            'product_full_image' => 'required|image|mimes:png,jpg,jpeg|max:2048'
-        ]);
-
         $slug = Str::slug($request->product_name);
         $productCategory = ProductCategory::findOrFail($request->product_category);
         $productLabel = ProductLabel::find($request->product_label);
@@ -125,18 +115,8 @@ class ProductController extends Controller
         return view('dashboard.product.product.edit', compact('product', 'categories', 'labels'));
     }
 
-    public function update(Request $request, Product $product)
+    public function update(ProductRequest $request, Product $product)
     {
-        $request->validate([
-            'product_name' => 'required|max:25',
-            'product_category' => 'required',
-            'product_label'=> 'required',
-            'product_price' => 'required|integer|min:1',
-            'product_description' => 'required|max:255',
-            'product_half_image' => 'image|mimes:png,jpg,jpeg|max:2048',
-            'product_full_image' => 'image|mimes:png,jpg,jpeg|max:2048'
-        ]);
-
         $slug = Str::slug($request->product_name);
         $productCategory = ProductCategory::findOrFail($request->product_category);
         $productLabel = ProductLabel::find($request->product_label);
