@@ -28,7 +28,7 @@ class GemsRequest extends FormRequest
             'amount' => 'required|numeric|min:1',
             'price' => 'required|numeric|min:1',
             'description' => 'required|max:200',
-            'discount_amount' => 'nullable|numeric'
+            'discount_amount' => 'nullable|numeric|min:1'
         ];
     }
 }

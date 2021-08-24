@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Gems;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class RechargeUserGemsController extends Controller
 {
@@ -25,7 +27,7 @@ class RechargeUserGemsController extends Controller
         $user->update([
             'balance' => $user->balance + $request->amount,
         ]);
-
+        Log::info($request->amount . ' Gems has been added to username: ' . $user->username . '. Recharged by ' . Auth::user()->username);
         return redirect()->back()->with("success", "Success add {$request->amount} gems to {$user->username}");
     }
 }

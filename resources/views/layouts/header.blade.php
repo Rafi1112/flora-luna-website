@@ -1,6 +1,6 @@
 <div id="kt_header_mobile" class="header-mobile">
     <a href="/">
-        <img alt="Logo" src="{{ asset('assets/media/logos/logo-default.png') }}" class="max-h-30px" />
+        <h1 class="text-white font-weight-bold">Flora Luna</h1>
     </a>
     <div class="d-flex align-items-center">
         <button class="btn p-0 burger-icon burger-icon-left ml-4" id="kt_header_mobile_toggle">
@@ -25,7 +25,7 @@
     <div class="container">
         <div class="d-none d-lg-flex align-items-center mr-3">
             <a href="/" class="mr-20">
-                <img alt="Logo" src="{{ asset('assets/media/logos/logo-default.png') }}" class="logo-default max-h-35px" />
+                <h1 class="text-white font-weight-bold">Flora Luna</h1>
             </a>
         </div>
 

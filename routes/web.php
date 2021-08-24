@@ -2,10 +2,12 @@
 
 use App\Http\Controllers\Account\AccountController;
 use App\Http\Controllers\Article\{ArticleController, ArticleCategoryController};
-use App\Http\Controllers\{Gems\GemsController,
+use App\Http\Controllers\{Account\HistoryController,
+    Gems\GemsController,
     Gems\RechargeUserGemsController,
     IndexController,
     Order\OrderListController,
+    PaymentController,
     Product\ItemController,
     Product\ProductCategoryController,
     Product\ProductController,
@@ -24,6 +26,15 @@ Route::prefix('account')->middleware('auth')->group(function () {
     Route::put('', [AccountController::class, 'updateProfile']);
     Route::get('change-password', [AccountController::class, 'changePassword'])->name('change.password');
     Route::put('change-password', [AccountController::class, 'updatePassword']);
+
+    Route::get('history', [HistoryController::class, 'itemHistory'])->name('item.history');
+    Route::get('history/table', [HistoryController::class, 'itemHistoryTable'])->name('item.history.table');
+    Route::get('history/purchases', [HistoryController::class, 'purchaseHistory'])->name('purchase.history');
+    Route::get('history/purchases/table', [HistoryController::class, 'purchaseHistoryTable'])->name('purchase.history.table');
+    Route::get('history/invoice/{order:invoice}', [HistoryController::class, 'invoice'])->name('invoice');
+
+    Route::get('payment', [PaymentController::class, 'index'])->name('payment.index');
+    Route::post('payment', [PaymentController::class, 'payment'])->name('payment');
 });
 
 Route::prefix('itemshop')->group(function () {
@@ -40,6 +51,10 @@ Route::prefix('p')->middleware(['auth', 'role:Game Master|Moderator'])->group(fu
             ->middleware('permission:list item order')->name('list.item.order');
         Route::get('item/table', [OrderListController::class, 'listItemOrderTable'])
             ->middleware('permission:list item order')->name('list.item.table');
+        Route::get('gems', [OrderListController::class, 'listGemsOrder'])
+            ->middleware('permission:list gems order')->name('list.gems.order');
+        Route::get('gems/table', [OrderListController::class, 'listGemsOrderTable'])
+            ->middleware('permission:list gems order')->name('list.gems.table');
     });
     Route::get('user-list', [UserController::class, 'index'])->name('user.list');
     Route::get('user-table', [UserController::class, 'table'])->name('user.table');

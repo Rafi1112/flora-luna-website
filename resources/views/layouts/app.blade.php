@@ -30,9 +30,12 @@
             <div class="d-flex flex-row flex-column-fluid container">
                 <div class="main d-flex flex-column flex-row-fluid">
                     <div class="content flex-column-fluid" id="kt_content">
+                        @yield('invoice')
                         <div class="row">
                             {{-- Start :: Sidebar --}}
-                            @include('layouts.sidebar')
+                            @if(request()->route()->getName() !== 'invoice')
+                                <x-sidebar/>
+                            @endif
                             {{-- End :: Sidebar --}}
                             {{-- Start :: Content --}}
                             @yield('content')

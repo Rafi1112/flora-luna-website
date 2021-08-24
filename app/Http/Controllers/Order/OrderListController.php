@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\Order;
 
 use App\Http\Controllers\Controller;
+use App\Models\Order\Order;
 use App\Models\Order\PurchasedItem;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 use Yajra\DataTables\DataTables;
 
 class OrderListController extends Controller
@@ -36,6 +39,33 @@ class OrderListController extends Controller
                 return $purchasedItem->created_at->format('d F Y, H:i');
             })
             ->rawColumns(['price', 'icon'])
+            ->make();
+    }
+
+    public function listGemsOrder()
+    {
+        return view('dashboard.orders.gems-index');
+    }
+
+    public function listGemsOrderTable()
+    {
+        $purchases = Order::with(['gem:id,title','user:id,username'])
+            ->latest()
+            ->get();
+        return DataTables::of($purchases)
+            ->editColumn('invoice', function ($purchase) {
+                return '<a class="text-decoration-none text-dark" title="'.$purchase->invoice.'">'.Str::limit($purchase->invoice, 20, '...').'</a>';
+            })
+            ->editColumn('price', function ($purchase) {
+                return 'Rp. '.rupiah_format($purchase->total_price).',-';
+            })
+            ->editColumn('action', function ($purchase) {
+                $detailInvoice = route('invoice', $purchase);
+                return '<a href="'.$detailInvoice.'" class="btn btn-sm btn-light-primary btn-icon" title="Detail" target="_blank">
+                            <i class="fas fa-eye"></i>
+                        </a>';
+            })
+            ->rawColumns(['invoice', 'action'])
             ->make();
     }
 }

@@ -18,6 +18,9 @@ class DatabaseSeeder extends Seeder
             PermissionsTableSeeder::class,
             UsersTableSeeder::class,
             GemsTableSeeder::class,
+            ProductCategorySeeder::class,
+            ProductLabelSeeder::class,
+            ProductSeeder::class,
         ]);
     }
 }

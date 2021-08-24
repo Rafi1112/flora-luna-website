@@ -8,6 +8,7 @@ use App\Models\Product\ProductCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class StoreController extends Controller
 {
@@ -55,7 +56,9 @@ class StoreController extends Controller
             DB::transaction(function () use ($user, $item) {
                 $user->purchasingItem($item);
             });
+            Log::info($user->username . ' success purchased "' . $item->name . '" item');
         } else {
+            Log::alert($user->username.' with balance: '. $user->balance.'. tried to purchase "'.$item->name.'" Price : '.$item->price.' gems. Unable to complete. Not enough balance.');
             return redirect()->back()->with("error", "Unable to complete the purchased item. Not enough balance.");
         }
 

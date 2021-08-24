@@ -125,8 +125,8 @@
                                 </a>
                                 <div class="menu-submenu menu-submenu-classic menu-submenu-right">
                                     <ul class="menu-subnav">
-                                        <li class="menu-item" aria-haspopup="true">
-                                            <a href="#" class="menu-link">
+                                        <li class="menu-item {{ Request::segment(3) === 'gems' ? 'menu-item-active' : '' }}" aria-haspopup="true">
+                                            <a href="{{ route('list.gems.order') }}" class="menu-link">
                                                 <i class="menu-bullet menu-bullet-dot">
                                                     <span></span>
                                                 </i>

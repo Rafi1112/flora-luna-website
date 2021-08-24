@@ -3,8 +3,11 @@
 namespace App\Models;
 
 use App\Models\Article\Article;
+use App\Models\Order\Gems;
+use App\Models\Order\Order;
 use App\Models\Order\PurchasedItem;
 use App\Models\Product\Item;
+use Carbon\Carbon;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -60,7 +63,7 @@ class User extends Authenticatable
 
     public function purchasingItem(Item $item)
     {
-        $invoice = 'INV/ITEM/' . time() . '/' . Str::upper(Str::random(6));
+        $invoice = 'INV-ITEM-' . Carbon::now()->format('Ymd') . '-' . rand(100000, 999999);
         $response = $this->purchasedItem()->create([
             'item_id' => $item->id,
             'invoice' => $invoice,
@@ -76,5 +79,17 @@ class User extends Authenticatable
         ]);
 
         return $response;
+    }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class, 'user_id');
+    }
+
+    public function rechargeUserBalance($amount)
+    {
+        return $this->update([
+            'balance' => $this->balance + $amount
+        ]);
     }
 }

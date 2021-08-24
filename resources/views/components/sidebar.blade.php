@@ -35,18 +35,18 @@
                 </div>
                 <div class="mt-5">
                     <a href="{{ route('account') }}" class="btn btn-primary btn-block font-weight-bolder btn-sm">Account Setting</a>
-                    <a href="#" class="btn btn-primary btn-block font-weight-bolder btn-sm">History</a>
-                    <a href="#" class="btn btn-success btn-block font-weight-bolder btn-sm">Purchase Gems</a>
+                    <a href="{{ route('item.history') }}" class="btn btn-primary btn-block font-weight-bolder btn-sm">History</a>
+                    <a href="{{ route('payment.index') }}" class="btn btn-success btn-block font-weight-bolder btn-sm">Purchase Gems</a>
                     <form action="{{ route('logout') }}" method="post">
                         @csrf
                         <button type="submit" class="btn btn-danger btn-block font-weight-bolder btn-sm mt-2">Logout</button>
                     </form>
                 </div>
             @else
-            <div>
-                <a href="{{ route('login') }}" class="btn btn-primary btn-block font-weight-bolder btn-sm">Login</a>
-                <a href="{{ route('register') }}" class="btn btn-light-success btn-block font-weight-bolder btn-sm">Register</a>
-            </div>
+                <div>
+                    <a href="{{ route('login') }}" class="btn btn-primary btn-block font-weight-bolder btn-sm">Login</a>
+                    <a href="{{ route('register') }}" class="btn btn-light-success btn-block font-weight-bolder btn-sm">Register</a>
+                </div>
             @endauth
         </div>
     </div>
@@ -59,24 +59,17 @@
         <div class="card-body pt-2">
             <div id="carouselExCap" class="carousel slide pointer-event" data-ride="carousel">
                 <div class="carousel-inner">
-                    <div class="carousel-item">
-                        <div class="d-block">
-                            <img src="{{ asset('assets/media/bachelor_h.png') }}" class="rounded mx-auto d-block" style="width:160px;height:auto;" alt="...">
+                    @foreach($is_featured as $index => $product)
+                        <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
+                            <div class="d-block">
+                                <img src="{{ $product->productHalfImage }}" class="rounded mx-auto d-block" style="width:160px;height:auto;" alt="...">
+                            </div>
+                            <div class="d-block text-center">
+                                <div class="d-block mt-2"><span class="card-label font-weight-bolder text-dark">{{ $product->name }}</span></div>
+                                <a href="{{ route('store.detail', $product) }}" class="btn btn-sm btn-primary mt-2">{{ $product->price }} <img src="{{ asset('assets/media/gem-coin.png') }}"></a>
+                            </div>
                         </div>
-                        <div class="d-block text-center">
-                            <div class="d-block mt-2"><span class="card-label font-weight-bolder text-dark">Bachelor</span></div>
-                            <a href="#" class="btn btn-sm btn-primary mt-2">150 <img src="{{ asset('assets/media/gem-coin.png') }}"></a>
-                        </div>
-                    </div>
-                    <div class="carousel-item active">
-                        <div class="d-block">
-                            <img src="{{ asset('assets/media/costume_bwl_h.png') }}" class="rounded mx-auto d-block" style="width:160px;height:auto;" alt="...">
-                        </div>
-                        <div class="d-block text-center">
-                            <div class="d-block mt-2"><span class="card-label font-weight-bolder text-dark">BWL</span></div>
-                            <a href="#" class="btn btn-sm btn-primary mt-2">200 <img src="{{ asset('assets/media/gem-coin.png') }}"></a>
-                        </div>
-                    </div>
+                    @endforeach
                 </div>
                 <a class="carousel-control-prev" href="#carouselExCap" role="button" data-slide="prev">
                     <em class="fas fa-arrow-alt-circle-left text-dark"></em>
