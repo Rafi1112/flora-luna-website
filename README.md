@@ -16,7 +16,7 @@ Package Installed:
 7. Run `php artisan key:generate`
 8. Run `php artisan serve`
 
-## Sneek Peek
+## Sneak Peek
 ![Homepage](https://user-images.githubusercontent.com/71953516/130602466-a6c8a055-97dd-4a70-91b0-73421c95d44c.png)
 
 ![Store](https://user-images.githubusercontent.com/71953516/130602495-7cdc583f-f5d6-48de-959c-1fc63b288df8.png)
