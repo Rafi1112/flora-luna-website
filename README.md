@@ -4,7 +4,7 @@ Flora luna is web application for purchasing an item game. This website is inspi
 Package Installed:
 
 - [Core Api Midtrans Integration](https://midtrans.com/id).
-- [Spatie Role Permission Package](https://laravel.com/docs/container).
+- [Spatie Role Permission Package](https://spatie.be/docs/laravel-permission/v4/introduction).
 
 ## Installation
 1. Clone the repository ``git clone`` and `cd` into it.
